@@ -860,26 +860,26 @@ object PluginRepository {
 
     const val EXAMPLE = """{
   "id": "my.first.plugin",
-  "name": "Мой плагин",
+  "name": "My plugin",
   "version": "1.0",
-  "author": "Я",
-  "description": "Пример: действия, сокращения, символы, тема, оформление, настройки, варианты и раскладка",
+  "author": "You",
+  "description": "Example: actions, shortcuts, symbols, theme, skin, settings, variants, and layout",
   "icon": "🚀",
   "actions": [
-    { "title": "Подпись", "icon": "✍️", "type": "insert", "text": "С уважением,{newline}Иван", "pinned": true },
-    { "title": "Посчитать", "icon": "🧮", "type": "transform", "transform": "calc" },
-    { "title": "Сегодня", "icon": "📅", "type": "insert", "text": "{date:d MMMM yyyy}" },
-    { "title": "В кавычки", "icon": "«»", "type": "transform", "transform": "wrap", "prefix": "«", "suffix": "»" },
-    { "title": "КАПС", "icon": "🔠", "type": "transform", "transform": "upper" },
-    { "title": "Выделить всё", "icon": "▣", "type": "key", "key": "select_all" }
+    { "title": "Signature", "icon": "✍️", "type": "insert", "text": "Best regards,{newline}Alex", "pinned": true },
+    { "title": "Calculate", "icon": "🧮", "type": "transform", "transform": "calc" },
+    { "title": "Today", "icon": "📅", "type": "insert", "text": "{date:d MMMM yyyy}" },
+    { "title": "Wrap in quotes", "icon": "\"\"", "type": "transform", "transform": "wrap", "prefix": "\"", "suffix": "\"" },
+    { "title": "UPPERCASE", "icon": "🔠", "type": "transform", "transform": "upper" },
+    { "title": "Select all", "icon": "▣", "type": "key", "key": "select_all" }
   ],
   "shortcuts": {
-    "спс": "спасибо",
-    "омг": "о боже мой",
+    "ty": "thank you",
+    "omw": "on my way",
     ":date": "{date}"
   },
   "symbols": [
-    { "title": "Стрелки", "icon": "→", "items": ["←", "↑", "→", "↓", "↔", "⇄", "⇒", "↩"] }
+    { "title": "Arrows", "icon": "→", "items": ["←", "↑", "→", "↓", "↔", "⇄", "⇒", "↩"] }
   ],
   "theme": {
     "seed": "#FF7A3D",
@@ -888,7 +888,7 @@ object PluginRepository {
     "colors": { "accent": "#FF7A3D", "accentText": "#2B1100" }
   },
   "settings": { "key_height_dp": 56, "show_number_row": true },
-  "variants": { "е": ["ё", "е", "є"] },
+  "variants": { "e": ["é", "e"] },
   "skin": {
     "keyboard": {
       "background": { "colors": ["#2B1100", "#5A1E00"], "angle": 120 },
@@ -897,8 +897,8 @@ object PluginRepository {
     "keys": {
       "*": { "material": "glass", "text": "#FFFFFF", "press": "jelly" },
       "enter": { "background": { "colors": ["#FF7A3D", "#FF3D7A"], "angle": 135 } },
-      "space": { "shape": "pill", "label": "пробел" },
-      "key:я": { "material": "solid", "background": "#FF7A3D", "text": "#2B1100", "glow": "#FF7A3D" }
+      "space": { "shape": "pill", "label": "space" },
+      "key:a": { "material": "solid", "background": "#FF7A3D", "text": "#2B1100", "glow": "#FF7A3D" }
     },
     "chips": { "material": "glass", "text": "#FFFFFF" }
   }
