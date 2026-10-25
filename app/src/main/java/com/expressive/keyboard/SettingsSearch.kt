@@ -15,14 +15,14 @@ object SettingsSearch {
             "Custom key left of the spacebar", "Custom key right of the spacebar")
         add(SettingsPage.LAYOUT, "Swap keys", "Restore defaults", "Key symbol")
         add(SettingsPage.ICONS, "Emoji style", "Custom emoji font", "Restore all icons")
-        add(SettingsPage.TOOLBAR, "Кнопки", "Порядок по умолчанию")
+        add(SettingsPage.TOOLBAR, "Buttons", "Default order")
         add(SettingsPage.LANGUAGES, "Enabled languages", "Add language", "Download dictionaries automatically", "Chinese (pinyin)", "Japanese (romaji → kana)")
         add(SettingsPage.TYPING, "Autocorrect", "Correction strength", "System spell checker",
             "Smart punctuation", "Claude API key", "Gemini API key", "OpenAI API key", "Groq API key", "Correction provider", "AI text correction", "Capitalize sentence starts", "Period on double-space")
         add(SettingsPage.GESTURES, "Instant input", "Glide typing", "Finger trail", "Swipe up on a key", "Spacebar long-press",
             "Paired brackets", "Incognito", "Swipe on spacebar", "Swipe left on backspace", "Long-press delay")
-        add(SettingsPage.CLIPBOARD, "Clipboard history", "Retention period", "Ключ GIPHY API", "Ключ KLIPY")
-        add(SettingsPage.FEEDBACK, "Вибрация при нажатии", "Характер отклика", "Длительность", "Сила", "Звук нажатия", "Громкость", "Свой звук нажатия")
+        add(SettingsPage.CLIPBOARD, "Clipboard history", "Retention period", "GIPHY API key", "KLIPY API key")
+        add(SettingsPage.FEEDBACK, "Vibration on keypress", "Feedback style", "Duration", "Strength", "Keypress sound", "Volume", "Custom keypress sound")
         add(SettingsPage.PLUGINS, "Import from file", "Import from clipboard", "Save example mod (.js)", "Save example plugin")
         add(SettingsPage.BACKUP, "Export settings", "Import settings", "Reset settings", "Clear learned words", "Clear recent emoji")
     }
