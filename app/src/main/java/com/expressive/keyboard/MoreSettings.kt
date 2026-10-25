@@ -163,12 +163,20 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.Language,
-        tr(
-            "Язык меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
-                "Подсказки работают по частотному словарю: русский, английский и китайский встроены, остальные скачиваются " +
-                "(~0,3–0,8 МБ). Китайский набирается пиньинем (nihao → 你好), японский — ромадзи (konnichiha → こんにちは), " +
-                "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
-        )
+        if (I18n.isEnglish) {
+            "Switch languages with the 🌐 key (long-press for the language list) or swipe the space bar. " +
+                "There are {0} languages. Suggestions use frequency dictionaries: English and Chinese are built in; " +
+                "others are downloaded (~0.3–0.8 MB). Chinese uses pinyin (nihao → 你好), Japanese uses romaji " +
+                "(konnichiha → こんにちは), Korean composes syllables automatically, and Vietnamese uses Telex."
+                    .let { tr(it, Languages.all.size) }
+        } else {
+            tr(
+                "Язык меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
+                    "Подсказки работают по частотному словарю: русский, английский и китайский встроены, остальные скачиваются " +
+                    "(~0,3–0,8 МБ). Китайский набирается пиньинем (nihao → 你好), японский — ромадзи (konnichiha → こんにちは), " +
+                    "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
+            )
+        }
     )
     SettingsSection(tr("Включённые языки")) {
         enabled.forEachIndexed { i, lang ->
@@ -353,7 +361,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
             "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Плагины тоже могут менять иконки."
     )
     IconStore.slots.groupBy { it.group }.forEach { (group, slots) ->
-        SettingsSection(group) {
+        SettingsSection(tr(group)) {
             for (slot in slots) {
                 val custom = IconStore.userIcon(slot.id)
                 GroupItem(onClick = { menuFor = slot }) {
@@ -451,8 +459,12 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.DragIndicator,
-        "Порядок кнопок на панели инструментов (кнопка с сеткой слева вверху). На самой клавиатуре порядок тоже " +
-            "меняется: удерживайте кнопку и перетащите её влево или вправо."
+        if (I18n.isEnglish) {
+            "Reorder toolbar buttons using the grid button in the upper-left corner. You can also press and drag buttons left or right directly on the keyboard."
+        } else {
+            "Порядок кнопок на панели инструментов (кнопка с сеткой слева вверху). На самой клавиатуре порядок тоже " +
+                "меняется: удерживайте кнопку и перетащите её влево или вправо."
+        }
     )
     SettingsSection(tr("Кнопки")) {
         order.forEachIndexed { i, id ->
