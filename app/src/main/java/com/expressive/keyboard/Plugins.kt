@@ -279,7 +279,7 @@ object PluginParser {
                 if (type == PluginActionType.KEY) require(key in KEYS) { "“$title”: unknown key $key" }
                 val url = a.optString("url").trim()
                 if (type == PluginActionType.HTTP) {
-                    require("network" in perms) { "«$title»: для http нужно \"permissions\": [\"network\"]" }
+                    require("network" in perms) { "«$title»: HTTP requires \"permissions\": [\"network\"]" }
                     require(url.startsWith("https://")) { "“$title”: URL must start with https://" }
                 }
                 val headers = HashMap<String, String>()
@@ -440,7 +440,7 @@ object PluginParser {
      * ```
      */
     fun jsToJson(source: String): String {
-        val m = JS_MANIFEST.find(source) ?: throw IllegalArgumentException("В начале .js нужен комментарий /* @plugin { \"id\": …, \"name\": … } */")
+        val m = JS_MANIFEST.find(source) ?: throw IllegalArgumentException("A .js file must start with a comment /* @plugin { \"id\": …, \"name\": … } */")
         val o = JSONObject(m.groupValues[1].trim())
         o.put("script", source)
         return o.toString()
