@@ -928,7 +928,7 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
             },
             listOf("CURSOR" to "Cursor", "LANGUAGE" to "Language", "OFF" to "Off"), settings.spaceSwipe
         ) { v -> KeyboardPrefs.edit(context) { putString("space_swipe", v) } }
-        ToggleItem(Icons.AutoMirrored.Rounded.Backspace, "Свайп влево по ⌫", "Deletes whole words", settings.backspaceSwipe) {
+        ToggleItem(Icons.AutoMirrored.Rounded.Backspace, "Swipe left on backspace", "Deletes whole words", settings.backspaceSwipe) {
             KeyboardPrefs.edit(context) { putBoolean("backspace_swipe", it) }
         }
         SliderItem(
