@@ -723,7 +723,7 @@ internal fun KeysPage(settings: KeyboardSettings) {
             KeyboardPrefs.edit(context) { putBoolean("show_emoji_key", it) }
         }
         ToggleItem(
-            Icons.Rounded.MoreHoriz, "Comma on the main keyboard", "Left of the spacebar. Long-press for ; : ' \" и другие знаки",
+            Icons.Rounded.MoreHoriz, "Comma on the main keyboard", "Left of the spacebar. Long-press for ; : ' \" and other symbols",
             settings.spaceLeftKey == ","
         ) { on -> KeyboardPrefs.edit(context) { putString("space_left_key", if (on) "," else "") } }
         ToggleItem(
