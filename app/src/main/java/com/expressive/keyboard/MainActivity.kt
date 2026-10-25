@@ -344,7 +344,7 @@ internal fun HomePage(settings: KeyboardSettings, onNavigate: (SettingsPage) -> 
     SettingsSection(null) {
         ChoiceItem(
             Icons.Rounded.Translate, "Язык приложения", null,
-            listOf("SYSTEM" to "Как в системе", "ru" to tr("Russian"), "en" to "English"), settings.appLanguage
+            listOf("SYSTEM" to "Как в системе", "ru" to "Russian", "en" to "English"), settings.appLanguage
         ) { v -> KeyboardPrefs.edit(context) { putString("app_language", v) } }
     }
     SettingsSection("Дизайн") {
