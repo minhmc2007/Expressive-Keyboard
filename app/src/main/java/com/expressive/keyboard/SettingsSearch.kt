@@ -7,24 +7,24 @@ object SettingsSearch {
         add(SettingsPage.LOOK, "Mode", "Accent shape", "Number of waves", "Wave depth", "Typeface", "Font weight",
             "Letter size", "Load custom font", "Key press response", "Panel animations")
         add(SettingsPage.COLORS, "Material You palette", "Keyboard background", "Letter keys", "Letter text", "Function keys",
-            "Accent (Enter, pressed)", "Key opacity", "Blur под клавиатурой", "Blur strength", "Restore theme colors", "Choose image", "Dim amount", "Blur")
+            "Accent (Enter, pressed)", "Key opacity", "Blur behind keyboard", "Blur strength", "Restore theme colors", "Choose image", "Dim amount", "Blur")
         add(SettingsPage.KEYS, "Key height", "Key corner radius", "Space between keys", "Space between rows",
-            "Side margins", "Bottom margin", "Mode одной руки", "Keyboard width", "Number row", "Key hints",
-            "Key pop-up on press", "Key borders", "Кнопка смены языка", "Кнопка эмодзи", "Кнопка микрофона",
-            "Строка подсказок", "Editing toolbar", "Удержание кнопки языка", "Запятая на основной клавиатуре", "Точка на основной клавиатуре",
-            "Своя клавиша слева от пробела", "Своя клавиша справа от пробела")
-        add(SettingsPage.LAYOUT, "Поменять местами", "Restore defaults", "Key symbol")
-        add(SettingsPage.ICONS, "Стиль эмодзи", "Свой шрифт эмодзи", "Вернуть все иконки")
+            "Side margins", "Bottom margin", "One-handed mode", "Keyboard width", "Number row", "Key hints",
+            "Key pop-up on press", "Key borders", "Language switch key", "Emoji key", "Microphone button",
+            "Suggestion strip", "Editing toolbar", "Long-press language key", "Comma on the main keyboard", "Period on the main keyboard",
+            "Custom key left of the spacebar", "Custom key right of the spacebar")
+        add(SettingsPage.LAYOUT, "Swap keys", "Restore defaults", "Key symbol")
+        add(SettingsPage.ICONS, "Emoji style", "Custom emoji font", "Restore all icons")
         add(SettingsPage.TOOLBAR, "Кнопки", "Порядок по умолчанию")
-        add(SettingsPage.LANGUAGES, "Onючённые языки", "Добавить язык", "Скачивать словарь автоматически", "Китайский (пиньинь)", "Японский (ромадзи → кана)")
-        add(SettingsPage.TYPING, "Autoисправление", "Насколько смело исправлять", "Системная проверка правописания",
-            "Знаки после пробела", "Ключ Claude API", "Ключ Gemini", "Ключ OpenAI", "Ключ Groq", "Кто исправляет", "Исправление текста ИИ", "Заглавная в начале предложения", "Точка двойным пробелом")
-        add(SettingsPage.GESTURES, "Мгновенный ввод", "Свайп-набор", "След за пальцем", "Свайп вверх по клавише", "Удержание пробела",
-            "Парные скобки", "Incognito", "Свайп по пробелу", "Свайп влево по ⌫", "Задержка удержания")
-        add(SettingsPage.CLIPBOARD, "История буфера", "Сколько хранить", "Ключ GIPHY API", "Ключ KLIPY")
+        add(SettingsPage.LANGUAGES, "Enabled languages", "Add language", "Download dictionaries automatically", "Chinese (pinyin)", "Japanese (romaji → kana)")
+        add(SettingsPage.TYPING, "Autocorrect", "Correction strength", "System spell checker",
+            "Smart punctuation", "Claude API key", "Gemini API key", "OpenAI API key", "Groq API key", "Correction provider", "AI text correction", "Capitalize sentence starts", "Period on double-space")
+        add(SettingsPage.GESTURES, "Instant input", "Glide typing", "Finger trail", "Swipe up on a key", "Spacebar long-press",
+            "Paired brackets", "Incognito", "Swipe on spacebar", "Swipe left on backspace", "Long-press delay")
+        add(SettingsPage.CLIPBOARD, "Clipboard history", "Retention period", "Ключ GIPHY API", "Ключ KLIPY")
         add(SettingsPage.FEEDBACK, "Вибрация при нажатии", "Характер отклика", "Длительность", "Сила", "Звук нажатия", "Громкость", "Свой звук нажатия")
-        add(SettingsPage.PLUGINS, "Импорт из файла", "Импорт из буфера обмена", "Сохранить пример мода (.js)", "Сохранить пример плагина")
-        add(SettingsPage.BACKUP, "Экспорт настроек", "Импорт настроек", "Сбросить настройки", "Clear выученные слова", "Clear недавние эмодзи")
+        add(SettingsPage.PLUGINS, "Import from file", "Import from clipboard", "Save example mod (.js)", "Save example plugin")
+        add(SettingsPage.BACKUP, "Export settings", "Import settings", "Reset settings", "Clear learned words", "Clear recent emoji")
     }
 
     fun find(query: String): List<Pair<String, SettingsPage>> {
