@@ -192,7 +192,7 @@ internal fun HeroCard(
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 StepRow(1, "Enable in system", imeEnabled, "Enable", onEnable)
-                StepRow(2, "Выбрать по умолчанию", imeSelected, "Выбрать", onSelect)
+                StepRow(2, "Set as default", imeSelected, "Выбрать", onSelect)
                 StepRow(3, "Microphone for voice input", micGranted, "Allow", onMic)
             }
         }
@@ -480,7 +480,7 @@ internal fun StylePreview(settings: KeyboardSettings, spec: WavySpec) {
                     GlyphIcon(Glyph.GRID, palette.onAccent, 18.dp)
                 }
                 if (settings.showSuggestions) {
-                    listOf("как", "привет", "дела").forEachIndexed { i, w ->
+                    listOf("how", "hello", "today").forEachIndexed { i, w ->
                         Box(
                             Modifier.weight(1f).height(34.dp).clip(CircleShape).background(if (i == 1) palette.accentSoft else palette.func),
                             contentAlignment = Alignment.Center
@@ -535,7 +535,7 @@ internal fun StylePreview(settings: KeyboardSettings, spec: WavySpec) {
                     }
                 }
                 Box(Modifier.weight(3f).fillMaxHeight().clip(CircleShape).background(palette.func), contentAlignment = Alignment.Center) {
-                    Text(if (I18n.isEnglish) "English" else "Русский", color = palette.onFunc.copy(alpha = 0.72f), fontFamily = font, fontWeight = weight, fontSize = 13.sp)
+                    Text(if (I18n.isEnglish) "English" else "Russian", color = palette.onFunc.copy(alpha = 0.72f), fontFamily = font, fontWeight = weight, fontSize = 13.sp)
                 }
                 Box(Modifier.weight(1.3f).fillMaxHeight().clip(CircleShape).background(palette.func), contentAlignment = Alignment.Center) {
                     GlyphIcon(Glyph.BACKSPACE, palette.onFunc, 20.dp)
@@ -673,7 +673,7 @@ internal fun ColorPickerDialog(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     val spec = remember { WavySpec(ShapeProfile.SINE, 12, 0.06f) }
                     Box(Modifier.size(72.dp).wavyBackground(spec, color), contentAlignment = Alignment.Center) {
-                        Text(tr("Аа"), color = contentColorFor(color), fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
+                        Text(tr("Aa"), color = contentColorFor(color), fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
                     }
                     OutlinedTextField(
                         value = hex,
