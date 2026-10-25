@@ -179,7 +179,7 @@ internal fun HeroCard(
                     color = if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer
                 )
                 Text(
-                    tr(if (ready) "Клавиатура включена и выбрана" else "Включите клавиатуру и выберите её по умолчанию"),
+                    tr(if (ready) "Клавиатура включена и выбрана" else "Onючите клавиатуру и выберите её по умолчанию"),
                     style = MaterialTheme.typography.bodyMedium,
                     color = (if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer).copy(alpha = 0.8f)
                 )
@@ -191,7 +191,7 @@ internal fun HeroCard(
             exit = shrinkVertically(spring(dampingRatio = 0.9f, stiffness = 400f)) + fadeOut()
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                StepRow(1, "Включить в системе", imeEnabled, "Включить", onEnable)
+                StepRow(1, "Onючить в системе", imeEnabled, "Onючить", onEnable)
                 StepRow(2, "Выбрать по умолчанию", imeSelected, "Выбрать", onSelect)
                 StepRow(3, "Микрофон для голосового ввода", micGranted, "Разрешить", onMic)
             }
@@ -718,17 +718,17 @@ internal fun ColorPickerDialog(
                 }
             }
         },
-        confirmButton = { Button(onClick = { onPick(color.toArgb()) }) { Text(tr("Готово")) } },
+        confirmButton = { Button(onClick = { onPick(color.toArgb()) }) { Text(tr("Done")) } },
         dismissButton = {
             Row {
-                if (allowAuto) TextButton(onClick = { onPick(0) }) { Text(tr("Авто")) }
-                TextButton(onClick = onDismiss) { Text(tr("Отмена")) }
+                if (allowAuto) TextButton(onClick = { onPick(0) }) { Text(tr("Auto")) }
+                TextButton(onClick = onDismiss) { Text(tr("Cancel")) }
             }
         }
     )
 }
 
-/** Строка «элемент → цвет»; «Авто» показывает цвет темы пунктиром. */
+/** Строка «элемент → цвет»; «Auto» показывает цвет темы пунктиром. */
 @Composable
 internal fun ColorRow(title: String, value: Int, auto: Color, onClick: () -> Unit) {
     val cs = MaterialTheme.colorScheme
@@ -746,7 +746,7 @@ internal fun ColorRow(title: String, value: Int, auto: Color, onClick: () -> Uni
             Column(Modifier.weight(1f)) {
                 Text(tr(title), style = MaterialTheme.typography.titleMedium, color = cs.onSurface)
                 Text(
-                    if (value == 0) tr("Авто (из темы)") else "#" + String.format("%06X", value and 0xFFFFFF),
+                    if (value == 0) tr("Auto (из темы)") else "#" + String.format("%06X", value and 0xFFFFFF),
                     style = MaterialTheme.typography.bodyMedium, color = cs.onSurfaceVariant
                 )
             }
@@ -768,7 +768,7 @@ internal fun TextInputDialog(title: String, initial: String, hint: String, onDis
             )
         },
         confirmButton = { Button(onClick = { onDone(text.trim()) }) { Text(tr("Сохранить")) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Отмена")) } }
+        dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Cancel")) } }
     )
 }
 
