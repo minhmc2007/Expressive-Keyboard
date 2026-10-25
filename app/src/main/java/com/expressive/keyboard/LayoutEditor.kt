@@ -120,8 +120,7 @@ internal fun LayoutEditorPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.SwapHoriz,
-        "Нажмите на две клавиши — они поменяются местами. Удерживайте клавишу, чтобы поставить на её место свой символ: " +
-            "букву, цифру или знак. Варианты при удержании переезжают вместе с клавишей."
+        tr("Layout editor explanation")
     )
     SettingsSection("Раскладка") {
         if (languages.size > 1) {
