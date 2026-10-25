@@ -120,19 +120,19 @@ internal fun LayoutEditorPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.SwapHoriz,
-        "Нажмите на две клавиши — они поменяются местами. Удерживайте клавишу, чтобы поставить на её место свой символ: " +
-            "букву, цифру или знак. Варианты при удержании переезжают вместе с клавишей."
+        "Tap two keys to swap them. Long-press a key to assign your own symbol: " +
+            "a letter, number, or symbol. Long-press variants move with the key."
     )
-    SettingsSection("Раскладка") {
+    SettingsSection("Layout") {
         if (languages.size > 1) {
             ChoiceItem(
-                Icons.Rounded.SwapHoriz, "Язык", null,
+                Icons.Rounded.SwapHoriz, "Language", null,
                 languages.take(4).map { it.id to it.label }, langId
             ) { langId = it; selected = null }
         }
         ChoiceItem(
-            Icons.Rounded.SwapHoriz, "Страница", null,
-            listOf("0" to "Буквы", "1" to "Символы", "2" to "Символы 2"), page.toString()
+            Icons.Rounded.SwapHoriz, "Page", null,
+            listOf("0" to "Letters", "1" to "Symbols", "2" to "Symbols 2"), page.toString()
         ) { page = it.toInt(); selected = null }
     }
     SettingsSection(lang.displayTitle()) {
@@ -176,7 +176,7 @@ internal fun LayoutEditorPage(settings: KeyboardSettings) {
             }
         }
         if (user.containsKey(id)) {
-            ActionItem(Icons.Rounded.RestartAlt, "Вернуть как было", "Только для этой раскладки", onClick = { save(null) })
+            ActionItem(Icons.Rounded.RestartAlt, "Restore defaults", "For this layout only", onClick = { save(null) })
         }
     }
 
@@ -186,11 +186,11 @@ internal fun LayoutEditorPage(settings: KeyboardSettings) {
         var text by remember(e) { mutableStateOf(TextFieldValue(keys[e].label, TextRange(0, keys[e].label.length))) }
         AlertDialog(
             onDismissRequest = { editing = null },
-            title = { Text(tr("Символ на клавише")) },
+            title = { Text(tr("Key symbol")) },
             text = {
                 OutlinedTextField(
                     value = text, onValueChange = { if (it.text.length <= 4) text = it }, singleLine = true,
-                    label = { Text(tr("Буква, цифра или знак")) }
+                    label = { Text(tr("Letter, number, or symbol")) }
                 )
             },
             confirmButton = {
@@ -199,9 +199,9 @@ internal fun LayoutEditorPage(settings: KeyboardSettings) {
                     order[e] = text.text.trim()
                     save(order)
                     editing = null
-                }) { Text(tr("Готово")) }
+                }) { Text(tr("Done")) }
             },
-            dismissButton = { TextButton(onClick = { editing = null }) { Text(tr("Отмена")) } }
+            dismissButton = { TextButton(onClick = { editing = null }) { Text(tr("Cancel")) } }
         )
     }
 }
