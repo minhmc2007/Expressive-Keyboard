@@ -568,4 +568,8 @@
     <string name="i18n_this_device_has_no_speech_recognition_service_tap_othe">This device has no speech recognition service. Tap “Other voice input”</string>
     <string name="i18n_install_speech_recognition_synthesis_from_google">Install “Speech Recognition &amp; Synthesis from Google”</string>
     <string name="i18n_couldn_t_translate_check_your_connection">Couldn\'t translate — check your connection</string>
+    <string name="i18n_feedback_click">Click</string>
+    <string name="i18n_feedback_tick">Tick</string>
+    <string name="i18n_feedback_heavy">Strong</string>
+    <string name="i18n_feedback_custom">Custom</string>
 </resources>
