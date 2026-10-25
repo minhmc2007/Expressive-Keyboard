@@ -531,7 +531,7 @@ internal fun GifPanel(state: KeyboardState, actions: KeyboardActions, settings: 
         }
         if (!online) {
             Text(
-                tr("Сейчас — встроенная подборка. Чтобы искать любые GIF, добавьте бесплатный ключ KLIPY в настройках → «Clipboard & GIF»."),
+                tr("This is the built-in collection. To search all GIFs, add a free KLIPY key in Settings → “Clipboard & GIF”."),
                 color = palette.muted, fontFamily = font, fontSize = 12.sp, lineHeight = 15.sp,
                 modifier = Modifier.padding(horizontal = 4.dp)
             )
@@ -751,7 +751,7 @@ internal fun PluginsPanel(state: KeyboardState, actions: KeyboardActions, palett
             ) {
                 Icon(Icons.Rounded.Extension, null, tint = palette.muted, modifier = Modifier.size(36.dp))
                 Text(
-                    "None плагинов с действиями или символами",
+                    "No plugins with actions or symbols",
                     color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center
                 )
                 PillButton(tr("Open plugins"), palette.accent, palette.onAccent, font) { actions.openSettings() }
