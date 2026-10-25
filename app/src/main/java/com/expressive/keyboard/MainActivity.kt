@@ -344,7 +344,7 @@ internal fun HomePage(settings: KeyboardSettings, onNavigate: (SettingsPage) -> 
     SettingsSection(null) {
         ChoiceItem(
             Icons.Rounded.Translate, "App language", null,
-            listOf("SYSTEM" to "System default", "ru" to "Русский", "en" to "English"), settings.appLanguage
+            listOf("SYSTEM" to "System default", "ru" to "Russian", "en" to "English"), settings.appLanguage
         ) { v -> KeyboardPrefs.edit(context) { putString("app_language", v) } }
     }
     SettingsSection("Design") {
@@ -411,8 +411,8 @@ internal fun LookPage(settings: KeyboardSettings) {
             val name = withContext(Dispatchers.IO) { importCustomFont(context, uri) }
             if (name != null) {
                 KeyboardPrefs.saveCustomFont(context, name)
-                Toast.makeText(context, tr("Font «{0}» применён", name), Toast.LENGTH_SHORT).show()
-            } else Toast.makeText(context, tr("Нужен корректный файл .ttf или .otf"), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, tr("Font “{0}” applied", name), Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(context, tr("A valid .ttf or .otf file is required"), Toast.LENGTH_LONG).show()
         }
     }
     PreviewSection(settings)
@@ -547,7 +547,7 @@ internal fun ColorsPage(settings: KeyboardSettings) {
         ColorRow("Letter text", settings.colorKeyText, auto.onLetter) { picker = ColorTarget("color_key_text", "Letter text") }
         ColorRow("Function keys", settings.colorFunc, auto.func) { picker = ColorTarget("color_func", "Function keys") }
         ColorRow("Function key text", settings.colorFuncText, auto.onFunc) { picker = ColorTarget("color_func_text", "Function key text") }
-        ColorRow("Accent (Enter, pressed)", settings.colorAccent, auto.accent) { picker = ColorTarget("color_accent", "Акцент") }
+        ColorRow("Accent (Enter, pressed)", settings.colorAccent, auto.accent) { picker = ColorTarget("color_accent", "Accent") }
         ColorRow("Accent text", settings.colorAccentText, auto.onAccent) { picker = ColorTarget("color_accent_text", "Accent text") }
         SliderItem(
             icon = Icons.Rounded.Opacity, title = "Key opacity",
@@ -559,11 +559,11 @@ internal fun ColorsPage(settings: KeyboardSettings) {
     }
     SettingsSection("Blur") {
         ChoiceItem(
-            Icons.Rounded.BlurOn, "Blur под клавиатурой",
+            Icons.Rounded.BlurOn, "Blur behind keyboard",
             when {
                 Build.VERSION.SDK_INT < 31 -> "Requires Android 12 or later"
                 settings.windowBlur == "ON" -> "Apps behind the keyboard show through the frosted background"
-                settings.windowBlur == "OFF" -> "Regular непрозрачный фон"
+                settings.windowBlur == "OFF" -> "Regular opaque background"
                 else -> "Enabled for Liquid Glass; disabled for other themes"
             },
             listOf("THEME" to "Use theme setting", "ON" to "On", "OFF" to "Off"), settings.windowBlur
@@ -674,7 +674,7 @@ internal fun KeysPage(settings: KeyboardSettings) {
             onCommit = { v -> KeyboardPrefs.edit(context) { putFloat("bottom_offset_dp", v) } }
         )
     }
-    SettingsSection("Mode одной руки") {
+    SettingsSection("One-handed mode") {
         ChoiceItem(
             Icons.Rounded.SwapHoriz, "Position", "Also toggled with ⇄ on the toolbar",
             listOf("OFF" to "Off", "LEFT" to "Left", "RIGHT" to "Right"), settings.oneHanded
@@ -702,46 +702,46 @@ internal fun KeysPage(settings: KeyboardSettings) {
         ToggleItem(Icons.Rounded.SelectAll, "Editing toolbar", "Above keyboard: cursor, select, copy, and paste", settings.editBar) {
             KeyboardPrefs.edit(context) { putBoolean("edit_bar", it) }
         }
-        ToggleItem(Icons.Rounded.Language, "Кнопка смены языка", "Без неё язык меняется свайпом по пробелу", settings.showGlobeKey) {
+        ToggleItem(Icons.Rounded.Language, "Language switch key", "Without it, switch languages by swiping on the spacebar", settings.showGlobeKey) {
             KeyboardPrefs.edit(context) { putBoolean("show_globe_key", it) }
         }
         if (settings.showGlobeKey) {
             val globeActions = listOf(
-                "LANGUAGES" to "Список языков", "SYSTEM" to "Выбор клавиатуры", "EMOJI" to "Emoji", "CLIPBOARD" to "Clipboard",
-                "VOICE" to "Voice input", "SETTINGS" to "Settings", "ONE_HANDED" to "Mode одной руки", "OFF" to "Ничего"
+                "LANGUAGES" to "Language list", "SYSTEM" to "Choose keyboard", "EMOJI" to "Emoji", "CLIPBOARD" to "Clipboard",
+                "VOICE" to "Voice input", "SETTINGS" to "Settings", "ONE_HANDED" to "One-handed mode", "OFF" to "None"
             )
             ChoiceItem(
-                Icons.Rounded.TouchApp, "Удержание кнопки языка",
-                globeActions.firstOrNull { it.first == settings.globeLongPress }?.second ?: "Список языков",
+                Icons.Rounded.TouchApp, "Long-press language key",
+                globeActions.firstOrNull { it.first == settings.globeLongPress }?.second ?: "Language list",
                 globeActions, settings.globeLongPress
             ) { v -> KeyboardPrefs.edit(context) { putString("globe_long_press", v) } }
         }
-        ToggleItem(Icons.Rounded.MoreHoriz, "Запятая и точка на странице ?123", "По бокам пробела. Удержание — другие знаки: ; : ' \" ? ! …", settings.punctuationKeys) {
+        ToggleItem(Icons.Rounded.MoreHoriz, "Comma and period on the ?123 page", "По бокам пробела. Удержание — другие знаки: ; : ' \" ? ! …", settings.punctuationKeys) {
             KeyboardPrefs.edit(context) { putBoolean("punctuation_keys", it) }
         }
         ToggleItem(Icons.Rounded.EmojiEmotions, "Кнопка эмодзи", null, settings.showEmojiKey) {
             KeyboardPrefs.edit(context) { putBoolean("show_emoji_key", it) }
         }
         ToggleItem(
-            Icons.Rounded.MoreHoriz, "Запятая на основной клавиатуре", "Left от пробела. Удержание — ; : ' \" и другие знаки",
+            Icons.Rounded.MoreHoriz, "Comma on the main keyboard", "Left от пробела. Удержание — ; : ' \" и другие знаки",
             settings.spaceLeftKey == ","
         ) { on -> KeyboardPrefs.edit(context) { putString("space_left_key", if (on) "," else "") } }
         ToggleItem(
-            Icons.Rounded.MoreHoriz, "Точка на основной клавиатуре", "Right от пробела. Удержание — ? ! … и другие знаки",
+            Icons.Rounded.MoreHoriz, "Period on the main keyboard", "Right of the spacebar. Long-press for ? ! … and other symbols",
             settings.spaceRightKey == "."
         ) { on -> KeyboardPrefs.edit(context) { putString("space_right_key", if (on) "." else "") } }
         SpaceSlotItem(
-            Icons.Rounded.SpaceBar, "Своя клавиша слева от пробела", settings.spaceLeftKey, "space_left_key",
-            "Например, запятая вместо кнопки языка, если язык вы меняете свайпом по пробелу"
+            Icons.Rounded.SpaceBar, "Custom key left of the spacebar", settings.spaceLeftKey, "space_left_key",
+            "For example, use a comma instead of the language key if you switch languages by swiping on the spacebar"
         )
         SpaceSlotItem(
-            Icons.Rounded.SpaceBar, "Своя клавиша справа от пробела", settings.spaceRightKey, "space_right_key",
-            "Удержание «,» и «.» — другие знаки, как в Gboard"
+            Icons.Rounded.SpaceBar, "Custom key right of the spacebar", settings.spaceRightKey, "space_right_key",
+            "Long-press comma or period for more symbols, like in Gboard"
         )
-        ToggleItem(Icons.Outlined.Mic, "Кнопка микрофона", null, settings.showMicButton) {
+        ToggleItem(Icons.Outlined.Mic, "Microphone button", null, settings.showMicButton) {
             KeyboardPrefs.edit(context) { putBoolean("show_mic_button", it) }
         }
-        ToggleItem(Icons.Rounded.Lightbulb, "Строка подсказок", "Если выключить, наверху всегда будут инструменты", settings.showSuggestions) {
+        ToggleItem(Icons.Rounded.Lightbulb, "Suggestion strip", "When disabled, the toolbar is always shown at the top", settings.showSuggestions) {
             KeyboardPrefs.edit(context) { putBoolean("show_suggestions", it) }
         }
     }
@@ -757,13 +757,13 @@ private fun SpaceSlotItem(icon: ImageVector, title: String, value: String, prefK
         else -> "custom"
     }
     ChoiceItem(
-        icon, title, if (selected == "custom") tr("Своя: «{0}»", value) else subtitle,
-        listOf("" to "None", "," to ",", "." to ".", "custom" to "Своя…"), selected
+        icon, title, if (selected == "custom") tr("Custom: “{0}”", value) else subtitle,
+        listOf("" to "None", "," to ",", "." to ".", "custom" to "Custom…"), selected
     ) { v ->
         if (v == "custom") dialog = true else KeyboardPrefs.edit(context) { putString(prefKey, v) }
     }
     if (dialog) {
-        TextInputDialog(title, if (selected == "custom") value else "", "Символ, буква или эмодзи — до 4 знаков", onDismiss = { dialog = false }) { v ->
+        TextInputDialog(title, if (selected == "custom") value else "", "Symbol, letter, or emoji — up to 4 characters", onDismiss = { dialog = false }) { v ->
             KeyboardPrefs.edit(context) { putString(prefKey, v.trim().take(4)) }
             dialog = false
         }
@@ -783,32 +783,32 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
     LaunchedEffect(part) {
         if (part == SettingsPage.TYPING) nanoStatus = AiFix.nanoStatus(context, "en")
     }
-    if (part == SettingsPage.GESTURES) SettingsSection("Скорость") {
-        ToggleItem(Icons.Rounded.Bolt, "Мгновенный ввод", "Буква появляется в момент касания, а не при отпускании пальца", settings.instantInput) {
+    if (part == SettingsPage.GESTURES) SettingsSection("Speed") {
+        ToggleItem(Icons.Rounded.Bolt, "Instant input", "Characters appear on touch instead of when you lift your finger", settings.instantInput) {
             KeyboardPrefs.edit(context) { putBoolean("instant_input", it) }
         }
     }
-    if (part == SettingsPage.GESTURES) SettingsSection("Печать без отрыва пальца") {
-        ToggleItem(Icons.Rounded.Gesture, "Свайп-набор", "Ведите палец от буквы к букве — слово вставится само, ещё варианты — в подсказках", settings.glideTyping) {
+    if (part == SettingsPage.GESTURES) SettingsSection("Glide typing") {
+        ToggleItem(Icons.Rounded.Gesture, "Glide typing", "Slide your finger from letter to letter to enter a word; alternatives appear in suggestions", settings.glideTyping) {
             KeyboardPrefs.edit(context) { putBoolean("glide_typing", it) }
         }
         AnimatedVisibility(settings.glideTyping) {
-            ToggleItem(Icons.Rounded.Timeline, "След за пальцем", null, settings.glideTrail) {
+            ToggleItem(Icons.Rounded.Timeline, "Finger trail", null, settings.glideTrail) {
                 KeyboardPrefs.edit(context) { putBoolean("glide_trail", it) }
             }
         }
     }
-    if (part == SettingsPage.GESTURES) SettingsSection("Удобства") {
-        ToggleItem(Icons.Rounded.North, "Свайп вверх по клавише", "Вводит маленький символ-подсказку без удержания", settings.swipeUpHint) {
+    if (part == SettingsPage.GESTURES) SettingsSection("Convenience") {
+        ToggleItem(Icons.Rounded.North, "Swipe up on a key", "Enters the secondary symbol without a long press", settings.swipeUpHint) {
             KeyboardPrefs.edit(context) { putBoolean("swipe_up_hint", it) }
         }
         val spaceActions = listOf(
-            "PICKER" to "Выбор клавиатуры", "AI_FIX" to "Улучшить текст", "VOICE" to "Voice input", "EMOJI" to "Emoji",
-            "CLIPBOARD" to "Clipboard", "TOOLBAR" to "Панель функций", "SETTINGS" to "Settings", "OFF" to "Ничего"
+            "PICKER" to "Choose keyboard", "AI_FIX" to "Улучшить текст", "VOICE" to "Voice input", "EMOJI" to "Emoji",
+            "CLIPBOARD" to "Clipboard", "TOOLBAR" to "Toolbar", "SETTINGS" to "Settings", "OFF" to "None"
         )
         ChoiceItem(
-            Icons.Rounded.SpaceBar, "Удержание пробела",
-            spaceActions.firstOrNull { it.first == settings.spaceLongAction }?.second ?: "Выбор клавиатуры",
+            Icons.Rounded.SpaceBar, "Spacebar long-press action",
+            spaceActions.firstOrNull { it.first == settings.spaceLongAction }?.second ?: "Choose keyboard",
             spaceActions, settings.spaceLongAction
         ) { v ->
             KeyboardPrefs.edit(context) {
@@ -816,105 +816,105 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
                 putBoolean("space_long_press", v != "OFF")
             }
         }
-        ToggleItem(Icons.Rounded.DataArray, "Парные скобки", "( [ { « сразу закрываются, курсор встаёт внутрь", settings.autoPair) {
+        ToggleItem(Icons.Rounded.DataArray, "Paired brackets", "( [ { « are automatically closed, with the cursor placed inside", settings.autoPair) {
             KeyboardPrefs.edit(context) { putBoolean("auto_pair", it) }
         }
-        ToggleItem(Icons.Rounded.VisibilityOff, "Incognito", "Не учить новые слова и не запоминать буфер. Кнопка есть и на панели инструментов", settings.incognito) {
+        ToggleItem(Icons.Rounded.VisibilityOff, "Incognito", "Don't learn new words or save clipboard history. Also available on the toolbar", settings.incognito) {
             KeyboardPrefs.edit(context) { putBoolean("incognito", it) }
         }
     }
-    if (part == SettingsPage.TYPING) SettingsSection("Исправление текста ИИ") {
+    if (part == SettingsPage.TYPING) SettingsSection("AI text correction") {
         InfoCard(
             Icons.Rounded.AutoFixHigh,
-            "Кнопка ✨ на панели инструментов исправляет выделенный текст, а если ничего не выделено — весь текст в поле. " +
-                "«Auto»: сначала на телефоне (Gemini Nano), если он умеет; иначе сервис, для которого задан ключ; иначе бесплатная проверка LanguageTool. " +
-                "Облачные сервисы получают исправляемый текст."
+            "The ✨ toolbar button corrects selected text, or the entire field if nothing is selected. " +
+                "“Auto”: try on-device (Gemini Nano), then a configured API service, then the free LanguageTool checker. " +
+                "Cloud services receive the text being corrected."
         )
         val providers = AiProvider.entries.map { it.id to it.title }
         val nanoText = when (nanoStatus) {
-            -1 -> "проверяю…"
-            FEATURE_AVAILABLE -> "готово"
-            FEATURE_DOWNLOADABLE, FEATURE_DOWNLOADING -> "скачается при первом исправлении"
-            else -> "этот телефон не поддерживает"
+            -1 -> "Checking…"
+            FEATURE_AVAILABLE -> "Ready"
+            FEATURE_DOWNLOADABLE, FEATURE_DOWNLOADING -> "Will download on first use"
+            else -> "Not supported on this device"
         }
         ChoiceItem(
-            Icons.Rounded.AutoFixHigh, "Кто исправляет",
+            Icons.Rounded.AutoFixHigh, "Correction provider",
             when (AiProvider.from(settings.aiProvider)) {
-                AiProvider.AUTO -> tr("Сначала на телефоне, потом сервис с ключом, потом LanguageTool")
-                AiProvider.NANO -> tr("Gemini Nano на телефоне: без интернета, английский и ещё 6 языков (без русского) — {0}", tr(nanoText))
-                AiProvider.GEMINI -> tr("Google Gemini — бесплатный ключ в Google AI Studio")
-                AiProvider.CLAUDE -> tr("Claude от Anthropic — платный ключ")
-                AiProvider.OPENAI -> tr("OpenAI — платный ключ")
-                AiProvider.GROQ -> tr("Groq — быстрый, есть бесплатный ключ")
-                AiProvider.LANGUAGETOOL -> tr("Бесплатная проверка без ключа (не ИИ)")
+                AiProvider.AUTO -> tr("Try on-device first, then a configured API service, then LanguageTool")
+                AiProvider.NANO -> tr("Gemini Nano on-device: offline, English and 6 more languages (not Russian) — {0}", tr(nanoText))
+                AiProvider.GEMINI -> tr("Google Gemini — get a free key from Google AI Studio")
+                AiProvider.CLAUDE -> tr("Anthropic Claude — paid API key")
+                AiProvider.OPENAI -> tr("OpenAI — paid API key")
+                AiProvider.GROQ -> tr("Groq — fast, free API key available")
+                AiProvider.LANGUAGETOOL -> tr("Free checking without an API key (not AI)")
             },
             providers, settings.aiProvider
         ) { v -> KeyboardPrefs.edit(context) { putString("ai_provider", v) } }
         ActionItem(
             Icons.Rounded.Key, "Ключ Gemini",
-            if (settings.geminiKey.isBlank()) "Бесплатно: aistudio.google.com → Get API key" else "Задан",
+            if (settings.geminiKey.isBlank()) "Бесплатно: aistudio.google.com → Get API key" else "Configured",
             onClick = { keyDialog = "gemini_key" }
         )
         ActionItem(
             Icons.Rounded.Key, "Ключ Claude API",
-            if (settings.anthropicKey.isBlank()) "console.anthropic.com" else "Задан",
+            if (settings.anthropicKey.isBlank()) "console.anthropic.com" else "Configured",
             onClick = { keyDialog = "anthropic_key" }
         )
         ActionItem(
             Icons.Rounded.Key, "Ключ OpenAI",
-            if (settings.openaiKey.isBlank()) "platform.openai.com" else "Задан",
+            if (settings.openaiKey.isBlank()) "platform.openai.com" else "Configured",
             onClick = { keyDialog = "openai_key" }
         )
         ActionItem(
             Icons.Rounded.Key, "Ключ Groq",
-            if (settings.groqKey.isBlank()) "Бесплатно: console.groq.com" else "Задан",
+            if (settings.groqKey.isBlank()) "Бесплатно: console.groq.com" else "Configured",
             onClick = { keyDialog = "groq_key" }
         )
     }
     keyDialog?.let { k ->
         val (title, current, hint) = when (k) {
-            "gemini_key" -> Triple("Ключ Gemini", settings.geminiKey, "Ключ с aistudio.google.com")
-            "openai_key" -> Triple("Ключ OpenAI", settings.openaiKey, "Ключ с platform.openai.com")
-            "groq_key" -> Triple("Ключ Groq", settings.groqKey, "Ключ с console.groq.com")
-            else -> Triple("Ключ Claude API", settings.anthropicKey, "Ключ с console.anthropic.com")
+            "gemini_key" -> Triple("Ключ Gemini", settings.geminiKey, "API key from aistudio.google.com")
+            "openai_key" -> Triple("Ключ OpenAI", settings.openaiKey, "API key from platform.openai.com")
+            "groq_key" -> Triple("Ключ Groq", settings.groqKey, "API key from console.groq.com")
+            else -> Triple("Ключ Claude API", settings.anthropicKey, "API key from console.anthropic.com")
         }
         TextInputDialog(title, current, hint, onDismiss = { keyDialog = null }) { v ->
             KeyboardPrefs.edit(context) { putString(k, v.trim()) }
             keyDialog = null
         }
     }
-    if (part == SettingsPage.TYPING) SettingsSection("Исправления") {
+    if (part == SettingsPage.TYPING) SettingsSection("Corrections") {
         ToggleItem(
-            Icons.Rounded.Spellcheck, "Autoисправление",
-            "Исправляет опечатки по пробелу, только если слова нет в словаре. ⌫ сразу после — отмена, и слово запоминается",
+            Icons.Rounded.Spellcheck, "Autocorrect",
+            "Corrects typos on space only when the word isn't in the dictionary. Press backspace immediately to undo; the word is learned",
             settings.autoCorrect
         ) {
             KeyboardPrefs.edit(context) { putBoolean("auto_correct_enabled", it) }
         }
         AnimatedVisibility(settings.autoCorrect) {
             ChoiceItem(
-                Icons.Rounded.Tune, "Насколько смело исправлять",
-                if (settings.autoCorrectStrength == "NORMAL") "Исправляет и неоднозначные опечатки — как Gboard"
-                else "Только явные опечатки: соседняя клавиша, пропущенная или лишняя буква",
-                listOf("SAFE" to "Осторожно", "NORMAL" to "Активно"), settings.autoCorrectStrength
+                Icons.Rounded.Tune, "Correction strength",
+                if (settings.autoCorrectStrength == "NORMAL") "Also corrects ambiguous typos, like Gboard"
+                else "Only obvious typos: adjacent key, missing letter, or extra letter",
+                listOf("SAFE" to "Conservative", "NORMAL" to "Aggressive"), settings.autoCorrectStrength
             ) { v -> KeyboardPrefs.edit(context) { putString("auto_correct_strength", v) } }
         }
         val spellName = remember { SystemSpell.currentName(context) }
         ToggleItem(
-            Icons.Rounded.Spellcheck, "Системная проверка правописания",
-            (if (spellName != null) tr("Сейчас: {0}.", spellName) + " " else "") +
-                tr("Исправления и варианты берутся из проверки телефона — обычно это словарь Gboard. Выбрать её: Settings → Система → Language и ввод → Проверка правописания"),
+            Icons.Rounded.Spellcheck, "System spell checker",
+            (if (spellName != null) tr("Current: {0}.", spellName) + " " else "") +
+                tr("Corrections and suggestions come from your phone's spell checker, usually Gboard. Configure it in Settings → System → Languages & input → Spell checker"),
             settings.systemSpellcheck
         ) {
             KeyboardPrefs.edit(context) { putBoolean("system_spellcheck", it) }
         }
-        ToggleItem(Icons.Rounded.MoreHoriz, "Знаки после пробела", "«слово ,» → «слово,» — пробел переезжает за запятую или точку", settings.smartPunctuation) {
+        ToggleItem(Icons.Rounded.MoreHoriz, "Smart punctuation", "“word ,” → “word,” — moves the space after the comma or period", settings.smartPunctuation) {
             KeyboardPrefs.edit(context) { putBoolean("smart_punctuation", it) }
         }
-        ToggleItem(Icons.Rounded.KeyboardCapslock, "Заглавная в начале предложения", null, settings.autoCapitalize) {
+        ToggleItem(Icons.Rounded.KeyboardCapslock, "Capitalize sentence starts", null, settings.autoCapitalize) {
             KeyboardPrefs.edit(context) { putBoolean("auto_capitalize", it) }
         }
-        ToggleItem(Icons.Rounded.MoreHoriz, "Точка двойным пробелом", null, settings.doubleSpacePeriod) {
+        ToggleItem(Icons.Rounded.MoreHoriz, "Period on double-space", null, settings.doubleSpacePeriod) {
             KeyboardPrefs.edit(context) { putBoolean("double_space_period", it) }
         }
     }
@@ -956,12 +956,12 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
         if (builtIn) InfoCard(Icons.Rounded.GifBox, "Search GIF уже работает — свой ключ не нужен. Можно указать свой, если хотите.")
         ActionItem(
             Icons.Rounded.GifBox, "Ключ KLIPY",
-            if (settings.klipyKey.isBlank()) "Бесплатно на partner.klipy.com — поиск любых GIF" else "Задан",
+            if (settings.klipyKey.isBlank()) "Бесплатно на partner.klipy.com — поиск любых GIF" else "Configured",
             onClick = { klipyDialog = true }
         )
         ActionItem(
             Icons.Rounded.GifBox, "Ключ GIPHY API",
-            if (settings.giphyKey.isBlank()) "Необязательно — запасной источник" else "Задан",
+            if (settings.giphyKey.isBlank()) "Необязательно — запасной источник" else "Configured",
             onClick = { giphyDialog = true }
         )
     }
@@ -1440,7 +1440,7 @@ internal fun AboutPage() {
             Icons.Rounded.EmojiEmotions to "Все эмодзи Unicode 16 с поиском и встроенными стилями",
             Icons.Rounded.Brush to "Свои иконки для любых кнопок и вкладок эмодзи",
             Icons.Rounded.Swipe to "Курсор свайпом по пробелу, удаление слов свайпом по ⌫",
-            Icons.Rounded.SwapHoriz to "Mode одной руки",
+            Icons.Rounded.SwapHoriz to "One-handed mode",
             Icons.Rounded.Translate to "Translator, GIF, буфер обмена, голосовой ввод",
             Icons.Rounded.Spellcheck to "Подсказки и автоисправление, которые учатся вашим словам"
         ).forEach { (icon, text) ->
