@@ -480,7 +480,7 @@ internal fun StylePreview(settings: KeyboardSettings, spec: WavySpec) {
                     GlyphIcon(Glyph.GRID, palette.onAccent, 18.dp)
                 }
                 if (settings.showSuggestions) {
-                    listOf("как", "привет", "дела").forEachIndexed { i, w ->
+                    (if (I18n.isEnglish) listOf("how", "hello", "today") else listOf("как", "привет", "дела")).forEachIndexed { i, w ->
                         Box(
                             Modifier.weight(1f).height(34.dp).clip(CircleShape).background(if (i == 1) palette.accentSoft else palette.func),
                             contentAlignment = Alignment.Center
