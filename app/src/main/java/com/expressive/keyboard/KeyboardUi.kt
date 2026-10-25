@@ -203,7 +203,7 @@ fun rememberKeyPalette(settings: KeyboardSettings): KeyPalette {
     ) { buildKeyPalette(cs, settings) }
 }
 
-/** Background image декодируется в фоне один раз на версию файла. */
+/** Фоновая картинка декодируется в фоне один раз на версию файла. */
 @Composable
 fun rememberBackgroundBitmap(version: Long): ImageBitmap? {
     val context = LocalContext.current
@@ -362,7 +362,7 @@ internal fun hintFor(label: String, variants: List<String>): String? {
         ?: variants.firstOrNull { !it.equals(label, ignoreCase = true) }
 }
 
-/** Position клавиши относительно фона клавиатуры — нужно стеклу, чтобы «видеть», что под ним. */
+/** Положение клавиши относительно фона клавиатуры — нужно стеклу, чтобы «видеть», что под ним. */
 internal fun keyPosIn(holder: CoordsHolder, backdrop: Backdrop?): Offset? {
     val k = holder.coords ?: return null
     val r = backdrop?.coords ?: return null
@@ -1174,7 +1174,7 @@ internal fun SuggestionStrip(state: KeyboardState, actions: KeyboardActions, pal
 
 /**
  * Улучшение текста в стиле Material You: клавиши мягко притушены, в центре — тональная плашка
- * с морфящимся индикатором (как LoadingIndicator из Material 3 Expressive). Done — индикатор
+ * с морфящимся индикатором (как LoadingIndicator из Material 3 Expressive). Готово — индикатор
  * сменяется галочкой, плашка ненадолго задерживается и уходит.
  */
 @Composable
@@ -1866,7 +1866,7 @@ internal fun PanelBody(
     }
 }
 
-/** Mode одной руки: клавиатура сжимается к краю, на свободном месте — кнопки «перенести» и «развернуть». */
+/** Режим одной руки: клавиатура сжимается к краю, на свободном месте — кнопки «перенести» и «развернуть». */
 @Composable
 internal fun KeyArea(
     state: KeyboardState,
