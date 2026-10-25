@@ -1480,7 +1480,7 @@ object Toolbar {
         add(ToolDef("one_handed", "One-handed mode", "one_handed", Icons.Rounded.SwapHoriz, null))
         add(ToolDef("incognito", "Incognito", "incognito", Icons.Rounded.VisibilityOff, null))
         add(ToolDef("settings", "Settings", "settings", Icons.Rounded.Settings, null))
-        add(ToolDef("hide", "Hide клавиатуру", "hide", Icons.Rounded.KeyboardHide, null))
+        add(ToolDef("hide", "Hide keyboard", "hide", Icons.Rounded.KeyboardHide, null))
     }
 
     /** Сохранённый порядок; новые кнопки встают рядом со своими соседями по умолчанию. */
@@ -1536,7 +1536,7 @@ internal fun ToolbarPill(state: KeyboardState, actions: KeyboardActions, setting
             id == "one_handed" -> KeyboardPrefs.edit(context) { putString("one_handed", if (settings.oneHanded == "OFF") "RIGHT" else "OFF") }
             id == "incognito" -> {
                 KeyboardPrefs.edit(context) { putBoolean("incognito", !settings.incognito) }
-                Toast.makeText(context, tr(if (settings.incognito) "Incognito выключено" else "Incognito: слова и буфер не запоминаются"), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, tr(if (settings.incognito) "Incognito is off" else "Incognito: words and clipboard are not saved"), Toast.LENGTH_SHORT).show()
             }
             id == "settings" -> actions.openSettings()
             id == "hide" -> actions.hideKeyboard()
