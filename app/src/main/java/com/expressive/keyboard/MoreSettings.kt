@@ -170,7 +170,7 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                 "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
         )
     )
-    SettingsSection("Включённые языки") {
+    SettingsSection(tr("Включённые языки")) {
         enabled.forEachIndexed { i, lang ->
             key(dictVersion, lang.id) {
                 LanguageRow(
@@ -178,13 +178,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                     dictState(context, lang, status),
                     trailing = {
                         IconButton(onClick = { if (i > 0) save(enabled.toMutableList().also { java.util.Collections.swap(it, i, i - 1) }) }, enabled = i > 0) {
-                            Icon(Icons.Rounded.KeyboardArrowUp, "Выше")
+                            Icon(Icons.Rounded.KeyboardArrowUp, tr("Выше"))
                         }
                         IconButton(onClick = { if (i < enabled.lastIndex) save(enabled.toMutableList().also { java.util.Collections.swap(it, i, i + 1) }) }, enabled = i < enabled.lastIndex) {
-                            Icon(Icons.Rounded.KeyboardArrowDown, "Ниже")
+                            Icon(Icons.Rounded.KeyboardArrowDown, tr("Ниже"))
                         }
                         IconButton(onClick = { save(enabled - lang) }, enabled = enabled.size > 1) {
-                            Icon(Icons.Rounded.RemoveCircleOutline, "Убрать", tint = if (enabled.size > 1) cs.error else cs.outline)
+                            Icon(Icons.Rounded.RemoveCircleOutline, tr("Убрать"), tint = if (enabled.size > 1) cs.error else cs.outline)
                         }
                     },
                     onDict = { download(lang) }
@@ -192,7 +192,7 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
             }
         }
     }
-    SettingsSection("Добавить язык") {
+    SettingsSection(tr("Добавить язык")) {
         GroupItem {
             OutlinedTextField(
                 value = query,
@@ -213,13 +213,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                         FilledTonalIconButton(onClick = {
                             save(enabled + lang)
                             if (settings.dictAutoDownload && lang.dict != null && !Dictionaries.isInstalled(context, lang.dict)) download(lang)
-                        }) { Icon(Icons.Rounded.Add, "Добавить") }
+                        }) { Icon(Icons.Rounded.Add, tr("Добавить")) }
                     }, onDict = null)
                 }
             }
     }
-    SettingsSection("Словари") {
-        ToggleItem(Icons.Rounded.CloudDownload, "Скачивать словарь автоматически", "При добавлении языка и при первом наборе на нём", settings.dictAutoDownload) {
+    SettingsSection(tr("Словари")) {
+        ToggleItem(Icons.Rounded.CloudDownload, tr("Скачивать словарь автоматически"), tr("При добавлении языка и при первом наборе на нём"), settings.dictAutoDownload) {
             KeyboardPrefs.edit(context) { putBoolean("dict_auto_download", it) }
         }
     }
@@ -338,11 +338,11 @@ internal fun IconsPage(settings: KeyboardSettings) {
         }
     }
 
-    SettingsSection("Стиль эмодзи") {
+    SettingsSection(tr("Стиль эмодзи")) {
         GroupItem { EmojiStylePicker(settings) { emojiFontLauncher.launch("*/*") } }
         if (settings.emojiFontVersion != 0L) {
             ActionItem(
-                Icons.Rounded.DeleteOutline, "Удалить свой шрифт эмодзи", null,
+                Icons.Rounded.DeleteOutline, tr("Удалить свой шрифт эмодзи"), null,
                 onClick = { KeyboardPrefs.resetEmojiFont(context) }
             )
         }
@@ -377,7 +377,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
                             )
                         }
                         if (custom != null) {
-                            IconButton(onClick = { IconStore.reset(context, slot.id) }) { Icon(Icons.Rounded.RestartAlt, "Вернуть стандартную") }
+                            IconButton(onClick = { IconStore.reset(context, slot.id) }) { Icon(Icons.Rounded.RestartAlt, tr("Вернуть стандартную")) }
                         }
                     }
                 }
@@ -385,7 +385,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         }
     }
     SettingsSection(null) {
-        ActionItem(Icons.Rounded.RestartAlt, "Вернуть все иконки", null, onClick = { confirmReset = true })
+        ActionItem(Icons.Rounded.RestartAlt, tr("Вернуть все иконки"), null, onClick = { confirmReset = true })
     }
 
     menuFor?.let { slot ->
@@ -419,7 +419,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         )
     }
     textFor?.let { slot ->
-        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), "Эмодзи или до 6 символов", onDismiss = { textFor = null }) { v ->
+        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), tr("Эмодзи или до 6 символов"), onDismiss = { textFor = null }) { v ->
             if (v.isNotBlank()) IconStore.setText(context, slot.id, v.trim()) else IconStore.reset(context, slot.id)
             textFor = null
         }
@@ -454,7 +454,7 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
         "Порядок кнопок на панели инструментов (кнопка с сеткой слева вверху). На самой клавиатуре порядок тоже " +
             "меняется: удерживайте кнопку и перетащите её влево или вправо."
     )
-    SettingsSection("Кнопки") {
+    SettingsSection(tr("Кнопки")) {
         order.forEachIndexed { i, id ->
             val def = byId[id] ?: return@forEachIndexed
             val visible = id !in hidden
@@ -476,10 +476,10 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
                         color = if (visible) cs.onSurface else cs.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis
                     )
                     IconButton(onClick = { saveOrder(order.toMutableList().also { java.util.Collections.swap(it, i, i - 1) }) }, enabled = i > 0) {
-                        Icon(Icons.Rounded.KeyboardArrowUp, "Раньше")
+                        Icon(Icons.Rounded.KeyboardArrowUp, tr("Раньше"))
                     }
                     IconButton(onClick = { saveOrder(order.toMutableList().also { java.util.Collections.swap(it, i, i + 1) }) }, enabled = i < order.lastIndex) {
-                        Icon(Icons.Rounded.KeyboardArrowDown, "Позже")
+                        Icon(Icons.Rounded.KeyboardArrowDown, tr("Позже"))
                     }
                     Switch(
                         checked = visible,
@@ -490,7 +490,7 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
         }
     }
     SettingsSection(null) {
-        ActionItem(Icons.Rounded.RestartAlt, "Порядок по умолчанию", "Все кнопки снова видны", onClick = {
+        ActionItem(Icons.Rounded.RestartAlt, tr("Порядок по умолчанию"), tr("Все кнопки снова видны"), onClick = {
             KeyboardPrefs.edit(context) { remove("toolbar_order"); remove("toolbar_hidden") }
         })
     }
