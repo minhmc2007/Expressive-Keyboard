@@ -614,18 +614,24 @@ object I18n {
     internal fun translate(source: String): String {
         val id = stringIds[source] ?: return source
         val context = stringsContext ?: return source
-        return runCatching { context.getString(id).replace("%%", "%") }.getOrDefault(source)
+        return runCatching { context.getString(id) }.getOrDefault(source)
     }
 
     val isEnglish: Boolean get() = lang == "en"
 }
 
-fun tr(source: String): String = I18n.translate(source)
+private val RESOURCE_FORMAT = Regex("%%|%(\\d+)\\$[a-zA-Z]|\\{(\\d+)\\}")
 
-fun tr(source: String, vararg args: Any?): String {
-    var value = I18n.translate(source)
-    args.forEachIndexed { index, arg ->
-        value = value.replace("%${index + 1}\$s", arg.toString())
+private fun formatResource(source: String, args: Array<out Any?>): String =
+    RESOURCE_FORMAT.replace(source) { match ->
+        when {
+            match.value == "%%" -> "%"
+            match.groupValues[1].isNotEmpty() ->
+                args.getOrNull(match.groupValues[1].toInt() - 1)?.toString() ?: match.value
+            else -> args.getOrNull(match.groupValues[2].toInt())?.toString() ?: match.value
+        }
     }
-    return value
-}
+
+fun tr(source: String): String = formatResource(I18n.translate(source), emptyArray())
+
+fun tr(source: String, vararg args: Any?): String = formatResource(I18n.translate(source), args)
