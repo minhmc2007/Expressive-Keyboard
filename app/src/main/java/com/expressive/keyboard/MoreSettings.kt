@@ -359,8 +359,13 @@ internal fun IconsPage(settings: KeyboardSettings) {
     }
     InfoCard(
         Icons.Rounded.Brush,
-        "Нажмите на иконку, чтобы заменить её своей картинкой (PNG с прозрачностью смотрится лучше всего) " +
-            "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Плагины тоже могут менять иконки."
+        if (I18n.isEnglish) {
+            "Tap an icon to replace it with your own image (transparent PNGs work best), emoji, or text. " +
+                "Images can be tinted to match the theme. Plugins can also change icons."
+        } else {
+            "Нажмите на иконку, чтобы заменить её своей картинкой (PNG с прозрачностью смотрится лучше всего) " +
+                "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Плагины тоже могут менять иконки."
+        }
     )
     IconStore.slots.groupBy { it.group }.forEach { (group, slots) ->
         SettingsSection(tr(group)) {
