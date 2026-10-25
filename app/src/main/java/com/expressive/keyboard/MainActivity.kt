@@ -719,7 +719,7 @@ internal fun KeysPage(settings: KeyboardSettings) {
         ToggleItem(Icons.Rounded.MoreHoriz, "Comma and period on the ?123 page", "По бокам пробела. Удержание — другие знаки: ; : ' \" ? ! …", settings.punctuationKeys) {
             KeyboardPrefs.edit(context) { putBoolean("punctuation_keys", it) }
         }
-        ToggleItem(Icons.Rounded.EmojiEmotions, "Кнопка эмодзи", null, settings.showEmojiKey) {
+        ToggleItem(Icons.Rounded.EmojiEmotions, "Emoji key", null, settings.showEmojiKey) {
             KeyboardPrefs.edit(context) { putBoolean("show_emoji_key", it) }
         }
         ToggleItem(
@@ -803,7 +803,7 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
             KeyboardPrefs.edit(context) { putBoolean("swipe_up_hint", it) }
         }
         val spaceActions = listOf(
-            "PICKER" to "Choose keyboard", "AI_FIX" to "Улучшить текст", "VOICE" to "Voice input", "EMOJI" to "Emoji",
+            "PICKER" to "Choose keyboard", "AI_FIX" to "Improve text", "VOICE" to "Voice input", "EMOJI" to "Emoji",
             "CLIPBOARD" to "Clipboard", "TOOLBAR" to "Toolbar", "SETTINGS" to "Settings", "OFF" to "None"
         )
         ChoiceItem(
@@ -851,32 +851,32 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
             providers, settings.aiProvider
         ) { v -> KeyboardPrefs.edit(context) { putString("ai_provider", v) } }
         ActionItem(
-            Icons.Rounded.Key, "Ключ Gemini",
-            if (settings.geminiKey.isBlank()) "Бесплатно: aistudio.google.com → Get API key" else "Configured",
+            Icons.Rounded.Key, "Gemini API key",
+            if (settings.geminiKey.isBlank()) "Free at aistudio.google.com → Get API key" else "Configured",
             onClick = { keyDialog = "gemini_key" }
         )
         ActionItem(
-            Icons.Rounded.Key, "Ключ Claude API",
+            Icons.Rounded.Key, "Claude API key",
             if (settings.anthropicKey.isBlank()) "console.anthropic.com" else "Configured",
             onClick = { keyDialog = "anthropic_key" }
         )
         ActionItem(
-            Icons.Rounded.Key, "Ключ OpenAI",
+            Icons.Rounded.Key, "OpenAI API key",
             if (settings.openaiKey.isBlank()) "platform.openai.com" else "Configured",
             onClick = { keyDialog = "openai_key" }
         )
         ActionItem(
-            Icons.Rounded.Key, "Ключ Groq",
-            if (settings.groqKey.isBlank()) "Бесплатно: console.groq.com" else "Configured",
+            Icons.Rounded.Key, "Groq API key",
+            if (settings.groqKey.isBlank()) "Free at console.groq.com" else "Configured",
             onClick = { keyDialog = "groq_key" }
         )
     }
     keyDialog?.let { k ->
         val (title, current, hint) = when (k) {
-            "gemini_key" -> Triple("Ключ Gemini", settings.geminiKey, "API key from aistudio.google.com")
-            "openai_key" -> Triple("Ключ OpenAI", settings.openaiKey, "API key from platform.openai.com")
-            "groq_key" -> Triple("Ключ Groq", settings.groqKey, "API key from console.groq.com")
-            else -> Triple("Ключ Claude API", settings.anthropicKey, "API key from console.anthropic.com")
+            "gemini_key" -> Triple("Gemini API key", settings.geminiKey, "API key from aistudio.google.com")
+            "openai_key" -> Triple("OpenAI API key", settings.openaiKey, "API key from platform.openai.com")
+            "groq_key" -> Triple("Groq API key", settings.groqKey, "API key from console.groq.com")
+            else -> Triple("Claude API key", settings.anthropicKey, "API key from console.anthropic.com")
         }
         TextInputDialog(title, current, hint, onDismiss = { keyDialog = null }) { v ->
             KeyboardPrefs.edit(context) { putString(k, v.trim()) }
@@ -918,33 +918,33 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
             KeyboardPrefs.edit(context) { putBoolean("double_space_period", it) }
         }
     }
-    if (part == SettingsPage.GESTURES) SettingsSection("Жесты") {
+    if (part == SettingsPage.GESTURES) SettingsSection("Gestures") {
         ChoiceItem(
-            Icons.Rounded.Swipe, "Свайп по пробелу",
+            Icons.Rounded.Swipe, "Swipe on spacebar",
             when (settings.spaceSwipe) {
-                "CURSOR" -> "Ведите палец по пробелу — курсор двигается"
-                "LANGUAGE" -> "Свайп меняет язык"
+                "CURSOR" -> "Slide your finger on the spacebar to move the cursor"
+                "LANGUAGE" -> "Swipe to switch languages"
                 else -> "Жест выключен"
             },
-            listOf("CURSOR" to "Курсор", "LANGUAGE" to "Language", "OFF" to "Off"), settings.spaceSwipe
+            listOf("CURSOR" to "Cursor", "LANGUAGE" to "Language", "OFF" to "Off"), settings.spaceSwipe
         ) { v -> KeyboardPrefs.edit(context) { putString("space_swipe", v) } }
-        ToggleItem(Icons.AutoMirrored.Rounded.Backspace, "Свайп влево по ⌫", "Удаляет целые слова", settings.backspaceSwipe) {
+        ToggleItem(Icons.AutoMirrored.Rounded.Backspace, "Свайп влево по ⌫", "Deletes whole words", settings.backspaceSwipe) {
             KeyboardPrefs.edit(context) { putBoolean("backspace_swipe", it) }
         }
         SliderItem(
-            icon = Icons.Rounded.Timer, title = "Задержка удержания",
+            icon = Icons.Rounded.Timer, title = "Long-press delay",
             value = settings.longPressMs, range = 180f..700f,
-            format = { "${it.roundToInt()} " + tr("мс") },
+            format = { "${it.roundToInt()} " + tr("ms") },
             onCommit = { v -> KeyboardPrefs.edit(context) { putFloat("long_press_ms", v) } }
         )
     }
     if (part == SettingsPage.CLIPBOARD) SettingsSection("Clipboard") {
-        ToggleItem(Icons.Rounded.ContentPaste, "История буфера", "Хранится только в памяти, пароли пропускаются", settings.clipboardHistory) {
+        ToggleItem(Icons.Rounded.ContentPaste, "Clipboard history", "Stored in memory only; passwords are excluded", settings.clipboardHistory) {
             KeyboardPrefs.edit(context) { putBoolean("clipboard_history", it) }
         }
         AnimatedVisibility(settings.clipboardHistory) {
             SliderItem(
-                icon = Icons.Rounded.History, title = "Сколько хранить",
+                icon = Icons.Rounded.History, title = "Retention period",
                 value = settings.clipboardSize.toFloat(), range = 5f..100f,
                 format = { "${it.roundToInt()}" },
                 onCommit = { v -> KeyboardPrefs.edit(context) { putInt("clipboard_size", v.roundToInt()) } }
@@ -953,26 +953,26 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
     }
     if (part == SettingsPage.CLIPBOARD) SettingsSection("GIF") {
         val builtIn = BuildConfig.KLIPY_API_KEY.isNotBlank() || BuildConfig.GIPHY_API_KEY.isNotBlank()
-        if (builtIn) InfoCard(Icons.Rounded.GifBox, "Search GIF уже работает — свой ключ не нужен. Можно указать свой, если хотите.")
+        if (builtIn) InfoCard(Icons.Rounded.GifBox, "GIF search already works; no API key is needed. You can add your own if you prefer.")
         ActionItem(
-            Icons.Rounded.GifBox, "Ключ KLIPY",
-            if (settings.klipyKey.isBlank()) "Бесплатно на partner.klipy.com — поиск любых GIF" else "Configured",
+            Icons.Rounded.GifBox, "KLIPY API key",
+            if (settings.klipyKey.isBlank()) "Free at partner.klipy.com — search all GIFs" else "Configured",
             onClick = { klipyDialog = true }
         )
         ActionItem(
-            Icons.Rounded.GifBox, "Ключ GIPHY API",
-            if (settings.giphyKey.isBlank()) "Необязательно — запасной источник" else "Configured",
+            Icons.Rounded.GifBox, "GIPHY API key",
+            if (settings.giphyKey.isBlank()) "Optional — fallback provider" else "Configured",
             onClick = { giphyDialog = true }
         )
     }
     if (klipyDialog) {
-        TextInputDialog("Ключ KLIPY", settings.klipyKey, "Ключ с partner.klipy.com", onDismiss = { klipyDialog = false }) { v ->
+        TextInputDialog("KLIPY API key", settings.klipyKey, "API key from partner.klipy.com", onDismiss = { klipyDialog = false }) { v ->
             KeyboardPrefs.edit(context) { putString("klipy_key", v.trim()) }
             klipyDialog = false
         }
     }
     if (giphyDialog) {
-        TextInputDialog("Ключ GIPHY API", settings.giphyKey, "Ключ с developers.giphy.com", onDismiss = { giphyDialog = false }) { v ->
+        TextInputDialog("GIPHY API key", settings.giphyKey, "API key from developers.giphy.com", onDismiss = { giphyDialog = false }) { v ->
             KeyboardPrefs.edit(context) { putString("giphy_key", v.trim()) }
             giphyDialog = false
         }
@@ -1000,11 +1000,11 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
                 }.getOrDefault(false)
             }
             if (ok) KeyboardPrefs.edit(context) { putLong("custom_sound_version", System.currentTimeMillis()) }
-            else Toast.makeText(context, tr("Не удалось открыть звук (нужен файл до 1 МБ)"), Toast.LENGTH_LONG).show()
+            else Toast.makeText(context, tr("Could not open sound (file must be under 1 MB)"), Toast.LENGTH_LONG).show()
         }
     }
-    SettingsSection("Вибрация") {
-        ToggleItem(Icons.Rounded.Vibration, "Вибрация при нажатии", null, settings.hapticsEnabled) {
+    SettingsSection("Vibration") {
+        ToggleItem(Icons.Rounded.Vibration, "Vibration on keypress", null, settings.hapticsEnabled) {
             KeyboardPrefs.edit(context) { putBoolean("haptics_enabled", it) }
             if (it) HapticsEngine.preview(context, HapticMode.fromId(settings.hapticMode), settings.vibrationMs, settings.vibrationAmplitude)
         }
@@ -1015,7 +1015,7 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 ChoiceItem(
-                    Icons.Rounded.TouchApp, "Характер отклика", null,
+                    Icons.Rounded.TouchApp, "Feedback style", null,
                     HapticMode.entries.map { it.id to it.title }, settings.hapticMode
                 ) { id ->
                     KeyboardPrefs.edit(context) { putString("haptic_mode", id) }
@@ -1024,14 +1024,14 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
                 AnimatedVisibility(visible = settings.hapticMode == HapticMode.CUSTOM.id) {
                     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         SliderItem(
-                            icon = Icons.Rounded.Timer, title = "Длительность",
+                            icon = Icons.Rounded.Timer, title = "Duration",
                             value = settings.vibrationMs, range = 1f..80f,
-                            format = { "${it.roundToInt()} " + tr("мс") },
+                            format = { "${it.roundToInt()} " + tr("ms") },
                             onDrag = { v -> HapticsEngine.preview(context, HapticMode.CUSTOM, v, settings.vibrationAmplitude) },
                             onCommit = { v -> KeyboardPrefs.edit(context) { putFloat("vibration_ms", v) } }
                         )
                         SliderItem(
-                            icon = Icons.Rounded.Bolt, title = "Сила",
+                            icon = Icons.Rounded.Bolt, title = "Strength",
                             value = settings.vibrationAmplitude, range = 1f..255f,
                             format = { "${(it / 2.55f).roundToInt()}%" },
                             onDrag = { v -> HapticsEngine.preview(context, HapticMode.CUSTOM, settings.vibrationMs, v) },
@@ -1049,20 +1049,20 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
         }
     }
     SettingsSection("Звук") {
-        ToggleItem(Icons.Rounded.MusicNote, "Звук нажатия", null, settings.soundEnabled) {
+        ToggleItem(Icons.Rounded.MusicNote, "Keypress sound", null, settings.soundEnabled) {
             KeyboardPrefs.edit(context) { putBoolean("sound_enabled", it) }
         }
         AnimatedVisibility(settings.soundEnabled) {
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 SliderItem(
-                    icon = Icons.Rounded.GraphicEq, title = "Громкость",
+                    icon = Icons.Rounded.GraphicEq, title = "Volume",
                     value = settings.soundVolume, range = 0.05f..1f,
                     format = { "${(it * 100).roundToInt()}%" },
                     onCommit = { v -> KeyboardPrefs.edit(context) { putFloat("sound_volume", v) } }
                 )
                 ActionItem(
                     Icons.Rounded.AudioFile,
-                    if (settings.customSoundVersion != 0L) "Сменить свой звук" else "Свой звук нажатия",
+                    if (settings.customSoundVersion != 0L) "Сменить свой звук" else "Custom keypress sound",
                     "Короткий аудиофайл (до 1 МБ): mp3, ogg, wav",
                     onClick = { soundLauncher.launch("audio/*") }
                 )
