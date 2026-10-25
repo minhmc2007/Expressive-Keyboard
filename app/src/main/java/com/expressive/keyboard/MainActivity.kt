@@ -1062,7 +1062,7 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
                 )
                 ActionItem(
                     Icons.Rounded.AudioFile,
-                    if (settings.customSoundVersion != 0L) "Сменить свой звук" else "Custom keypress sound",
+                    if (settings.customSoundVersion != 0L) "Change custom sound" else "Custom keypress sound",
                     "Короткий аудиофайл (до 1 МБ): mp3, ogg, wav",
                     onClick = { soundLauncher.launch("audio/*") }
                 )
@@ -1105,7 +1105,7 @@ internal fun PluginsPage() {
                     context.contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
                 }.isSuccess
             }
-            Toast.makeText(context, if (ok) tr("Пример мода сохранён — отредактируйте и импортируйте") else tr("Не удалось сохранить"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, if (ok) tr("Пример мода сохранён — отредактируйте и импортируйте") else tr("Could not save"), Toast.LENGTH_SHORT).show()
         }
     }
     val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
@@ -1116,7 +1116,7 @@ internal fun PluginsPage() {
             val ok = withContext(Dispatchers.IO) {
                 runCatching { context.contentResolver.openOutputStream(uri)?.use { it.write(PluginRepository.EXAMPLE.toByteArray()) } }.isSuccess
             }
-            Toast.makeText(context, if (ok) tr("Пример сохранён — отредактируйте и импортируйте") else tr("Не удалось сохранить"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, if (ok) tr("Пример сохранён — отредактируйте и импортируйте") else tr("Could not save"), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -1138,7 +1138,7 @@ internal fun PluginsPage() {
         ActionItem(Icons.Rounded.ContentPaste, "Импорт из буфера обмена", "Скопируйте JSON плагина или код мода и нажмите", onClick = {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val text = cm.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
-            if (text.isBlank()) Toast.makeText(context, tr("Clipboard пуст"), Toast.LENGTH_SHORT).show()
+            if (text.isBlank()) Toast.makeText(context, tr("Clipboard is empty"), Toast.LENGTH_SHORT).show()
             else onImported(PluginRepository.importText(context, text))
         })
         ActionItem(Icons.Rounded.Download, "Сохранить пример плагина", "Шаблон со всеми возможностями формата", onClick = {
@@ -1209,7 +1209,7 @@ internal fun PluginsPage() {
                 TextButton(onClick = {
                     PluginRepository.setEnabled(context, p.id, false)
                     pendingNetwork = null
-                }) { Text(tr("Offючить")) }
+                }) { Text(tr("Disable")) }
             }
         )
     }
@@ -1355,7 +1355,7 @@ internal fun BackupPage() {
             val ok = withContext(Dispatchers.IO) {
                 runCatching { context.contentResolver.openOutputStream(uri)?.use { it.write(KeyboardPrefs.exportJson(context).toByteArray()) } }.isSuccess
             }
-            Toast.makeText(context, if (ok) tr("Settings сохранены") else tr("Не удалось сохранить"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, if (ok) tr("Settings saved") else tr("Could not save"), Toast.LENGTH_SHORT).show()
         }
     }
     val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
@@ -1377,11 +1377,11 @@ internal fun BackupPage() {
         ActionItem(Icons.Rounded.Download, "Импорт настроек", "Восстановить из файла", onClick = {
             importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
         })
-        ActionItem(Icons.Rounded.RestartAlt, "Сбросить настройки", "Словарь, плагины и недавние эмодзи сохранятся", onClick = { confirm = "settings" })
+        ActionItem(Icons.Rounded.RestartAlt, "Reset настройки", "Словарь, плагины и недавние эмодзи сохранятся", onClick = { confirm = "settings" })
     }
     SettingsSection("Данные") {
-        ActionItem(Icons.Rounded.AutoFixHigh, "Clear выученные слова", "Подсказки забудут ваши слова и пары слов", onClick = { confirm = "dict" })
-        ActionItem(Icons.Rounded.History, "Clear недавние эмодзи", null, onClick = {
+        ActionItem(Icons.Rounded.AutoFixHigh, "Clear learned words", "Suggestions will forget your learned words and word pairs", onClick = { confirm = "dict" })
+        ActionItem(Icons.Rounded.History, "Clear recent emoji", null, onClick = {
             EmojiRecents.clear(context)
             Toast.makeText(context, tr("Done"), Toast.LENGTH_SHORT).show()
         })
@@ -1390,11 +1390,11 @@ internal fun BackupPage() {
         AlertDialog(
             onDismissRequest = { confirm = null },
             icon = { Icon(Icons.Rounded.RestartAlt, null) },
-            title = { Text(tr(if (what == "dict") "Clear словарь?" else "Сбросить настройки?")) },
+            title = { Text(tr(if (what == "dict") "Clear learned words?" else "Reset настройки?")) },
             text = {
                 Text(
                     tr(if (what == "dict") "Все выученные слова будут удалены."
-                    else "Dimensions, цвета, тема, шрифт, фон и вибрация вернутся к значениям по умолчанию.")
+                    else "Dimensions, colors, theme, font, background, and vibration will be restored to their defaults.")
                 )
             },
             confirmButton = {
@@ -1404,7 +1404,7 @@ internal fun BackupPage() {
                         CjkUser.clear()
                     } else KeyboardPrefs.resetAll(context)
                     confirm = null
-                }) { Text(tr(if (what == "dict") "Clear" else "Сбросить")) }
+                }) { Text(tr(if (what == "dict") "Clear" else "Reset")) }
             },
             dismissButton = { TextButton(onClick = { confirm = null }) { Text(tr("Cancel")) } }
         )
@@ -1436,12 +1436,12 @@ internal fun AboutPage() {
         listOf(
             Icons.Rounded.Palette to "Material You: цвета из обоев или из любого своего цвета",
             Icons.Rounded.Extension to "Моды на JavaScript: свои панели, кнопки, клавиши, события и подсказки",
-            Icons.Rounded.Language to tr("Languageов: {0} — с частотными словарями, пиньинем, каной, хангылем и Telex", Languages.all.size),
+            Icons.Rounded.Language to tr("{0} languages with frequency dictionaries, pinyin, kana, hangul, and Telex", Languages.all.size),
             Icons.Rounded.EmojiEmotions to "Все эмодзи Unicode 16 с поиском и встроенными стилями",
             Icons.Rounded.Brush to "Свои иконки для любых кнопок и вкладок эмодзи",
             Icons.Rounded.Swipe to "Курсор свайпом по пробелу, удаление слов свайпом по ⌫",
             Icons.Rounded.SwapHoriz to "One-handed mode",
-            Icons.Rounded.Translate to "Translator, GIF, буфер обмена, голосовой ввод",
+            Icons.Rounded.Translate to "Translator, GIF, clipboard, and voice input",
             Icons.Rounded.Spellcheck to "Подсказки и автоисправление, которые учатся вашим словам"
         ).forEach { (icon, text) ->
             GroupItem {
