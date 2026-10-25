@@ -191,9 +191,9 @@ internal fun HeroCard(
             exit = shrinkVertically(spring(dampingRatio = 0.9f, stiffness = 400f)) + fadeOut()
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                StepRow(1, "Включить в системе", imeEnabled, "Включить", onEnable)
-                StepRow(2, "Выбрать по умолчанию", imeSelected, "Выбрать", onSelect)
-                StepRow(3, "Микрофон для голосового ввода", micGranted, "Разрешить", onMic)
+                StepRow(1, tr("Включить в системе"), imeEnabled, tr("Включить"), onEnable)
+                StepRow(2, tr("Выбрать по умолчанию"), imeSelected, tr("Выбрать"), onSelect)
+                StepRow(3, tr("Микрофон для голосового ввода"), micGranted, tr("Разрешить"), onMic)
             }
         }
     }
