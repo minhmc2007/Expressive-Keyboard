@@ -13,5 +13,5 @@ The existing `tr()` calls use a compatibility map in `I18n.kt`. Add an entry the
 ## Code style
 
 - Keep comments short and specific.
-- Explain why, not obvious code.
-- Don't use em dashes in comments.
+- Add comments only when the reason isn't clear from the code.
+- Avoid em dashes in comments.

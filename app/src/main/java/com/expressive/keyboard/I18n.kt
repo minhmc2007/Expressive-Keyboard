@@ -627,8 +627,12 @@ private fun formatResource(source: String, args: Array<out Any?>): String =
         when {
             match.value == "%%" -> "%"
             match.groupValues[1].isNotEmpty() ->
-                args.getOrNull(match.groupValues[1].toInt() - 1)?.toString() ?: match.value
-            else -> args.getOrNull(match.groupValues[2].toInt())?.toString() ?: match.value
+                (match.groupValues[1].toInt() - 1).let { index ->
+                    if (index in args.indices) args[index].toString() else match.value
+                }
+            else -> match.groupValues[2].toInt().let { index ->
+                    if (index in args.indices) args[index].toString() else match.value
+                }
         }
     }
 
