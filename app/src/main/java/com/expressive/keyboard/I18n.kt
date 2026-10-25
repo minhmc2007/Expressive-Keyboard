@@ -582,7 +582,10 @@ object I18n {
         "Russian" to R.string.i18n_russian,
         "AI text correction explanation" to R.string.i18n_ai_text_correction_explanation,
         "Language settings explanation" to R.string.i18n_language_settings_explanation,
-        "Layout editor explanation" to R.string.i18n_layout_editor_explanation
+        "Layout editor explanation" to R.string.i18n_layout_editor_explanation,
+        "Plugin help" to R.string.i18n_plugin_help,
+        "Custom icon help" to R.string.i18n_custom_icon_help,
+        "Toolbar order help" to R.string.i18n_toolbar_order_help
     )
 
     private fun systemLang(): String =
