@@ -1198,13 +1198,13 @@ internal fun PluginsPage() {
                         if ("read_text" in p.permissions) add("• " + tr("read typed text and the text in the input field"))
                         if ("clipboard" in p.permissions) add("• " + tr("read clipboard history"))
                         if ("network" in p.permissions) add(
-                            "• " + tr("выходить в интернет") + p.actions.filter { it.type == PluginActionType.HTTP }
+                            "• " + tr("access the internet") + p.actions.filter { it.type == PluginActionType.HTTP }
                                 .joinToString("") { "\n   ${it.title}: ${Uri.parse(it.url).host}" }
                         )
-                    }.joinToString("\n") + "\n\n" + tr("Устанавливайте моды только из источников, которым доверяете. Оставить плагин включённым?")
+                    }.joinToString("\n") + "\n\n" + tr("Only install mods from sources you trust. Keep this plugin enabled?")
                 )
             },
-            confirmButton = { Button(onClick = { pendingNetwork = null }) { Text(tr("Оставить")) } },
+            confirmButton = { Button(onClick = { pendingNetwork = null }) { Text(tr("Keep enabled")) } },
             dismissButton = {
                 TextButton(onClick = {
                     PluginRepository.setEnabled(context, p.id, false)
@@ -1237,7 +1237,7 @@ internal fun PluginCard(p: KeyboardPlugin, expanded: Boolean, onExpand: () -> Un
                 Column(Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Text(p.name, style = MaterialTheme.typography.titleMedium, color = cs.onSurface, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                        if (p.usesNetwork) Icon(Icons.Rounded.Public, "Использует сеть", tint = cs.tertiary, modifier = Modifier.size(16.dp))
+                        if (p.usesNetwork) Icon(Icons.Rounded.Public, "Uses network", tint = cs.tertiary, modifier = Modifier.size(16.dp))
                     }
                     Text(
                         listOf("v${p.version}", p.author, p.summary).filter { it.isNotBlank() }.joinToString(" · "),
@@ -1261,20 +1261,20 @@ internal fun PluginCard(p: KeyboardPlugin, expanded: Boolean, onExpand: () -> Un
                     if (p.description.isNotBlank()) Text(p.description, style = MaterialTheme.typography.bodyMedium, color = cs.onSurface)
                     val perms = p.permissions.filter { it in PluginParser.PERMISSIONS }
                     if (perms.isNotEmpty()) {
-                        Text(tr("Разрешения"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
+                        Text(tr("Permissions"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
                         Text(
                             perms.joinToString("  ·  ") {
                                 when (it) {
-                                    "read_text" -> tr("читает текст")
-                                    "clipboard" -> tr("буфер обмена")
-                                    else -> tr("интернет")
+                                    "read_text" -> tr("reads typed text")
+                                    "clipboard" -> tr("clipboard")
+                                    else -> tr("internet")
                                 }
                             },
                             style = MaterialTheme.typography.bodySmall, color = cs.tertiary
                         )
                     }
                     if (p.actions.isNotEmpty()) {
-                        Text(tr("Действия"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
+                        Text(tr("Actions"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
                         Text(
                             p.actions.joinToString("  ·  ") { if (it.icon.startsWith("@") || it.icon.startsWith("data:")) it.title else "${it.icon} ${it.title}" },
                             style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant
@@ -1282,19 +1282,19 @@ internal fun PluginCard(p: KeyboardPlugin, expanded: Boolean, onExpand: () -> Un
                     }
                     if (p.script != null) {
                         val log = ScriptHost.logs[p.id].orEmpty()
-                        Text(tr("Журнал скрипта"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
+                        Text(tr("Script log"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
                         Text(
-                            if (log.isEmpty()) tr(if (enabled) "Пусто" else "Мод выключен") else log.takeLast(12).joinToString("\n"),
+                            if (log.isEmpty()) tr(if (enabled) "Empty" else "Mod disabled") else log.takeLast(12).joinToString("\n"),
                             style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
                             color = cs.onSurfaceVariant,
                             modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(12.dp)).background(cs.surfaceContainerHighest).padding(10.dp)
                         )
                     }
                     if (p.shortcuts.isNotEmpty()) {
-                        Text(tr("Сокращения (по пробелу)"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
+                        Text(tr("Shortcuts (triggered by space)"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
                         Text(
                             p.shortcuts.entries.take(12).joinToString("\n") { (k, v) -> "$k → ${v.replace("\n", "⏎").take(40)}" } +
-                                if (p.shortcuts.size > 12) "\n… " + tr("ещё {0}", p.shortcuts.size - 12) else "",
+                                if (p.shortcuts.size > 12) "\n… " + tr("{0} more", p.shortcuts.size - 12) else "",
                             style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant
                         )
                     }
@@ -1303,7 +1303,7 @@ internal fun PluginCard(p: KeyboardPlugin, expanded: Boolean, onExpand: () -> Un
                         Text(p.symbols.joinToString("  ·  ") { "${it.icon} ${it.title} (${it.items.size})" }, style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant)
                     }
                     if (p.layouts.isNotEmpty()) {
-                        Text(tr("Раскладки"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
+                        Text(tr("Layouts"), style = MaterialTheme.typography.labelLarge, color = cs.primary)
                         Text(
                             p.layouts.entries.joinToString("\n") { (id, rows) -> "$id: " + rows.joinToString(" / ") { r -> r.keys.joinToString("") { it.label.take(1) } } },
                             style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant, maxLines = 6, overflow = TextOverflow.Ellipsis
@@ -1315,18 +1315,18 @@ internal fun PluginCard(p: KeyboardPlugin, expanded: Boolean, onExpand: () -> Un
                             FilledTonalButton(onClick = {
                                 if (!enabled) PluginRepository.setEnabled(context, p.id, true)
                                 PluginRepository.applyLook(context, p)
-                                Toast.makeText(context, tr("Оформление «{0}» применено", p.name), Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, tr("Skin “{0}” applied", p.name), Toast.LENGTH_SHORT).show()
                             }) {
                                 Icon(Icons.Rounded.FormatPaint, null, modifier = Modifier.size(18.dp))
                                 Spacer(Modifier.width(6.dp))
-                                Text(tr("Применить оформление"))
+                                Text(tr("Apply skin"))
                             }
                         }
                         if (skinOn) {
                             OutlinedButton(onClick = { PluginRepository.removeSkin(context) }) {
                                 Icon(Icons.Rounded.FormatColorReset, null, modifier = Modifier.size(18.dp))
                                 Spacer(Modifier.width(6.dp))
-                                Text(tr("Снять оформление"))
+                                Text(tr("Remove skin"))
                             }
                         }
                         if (onDelete != null) {
@@ -1362,24 +1362,24 @@ internal fun BackupPage() {
         if (uri != null) scope.launch {
             val r = withContext(Dispatchers.IO) {
                 runCatching {
-                    val raw = context.contentResolver.openInputStream(uri)?.use { it.readBytes().toString(Charsets.UTF_8) } ?: error("Файл не открылся")
+                    val raw = context.contentResolver.openInputStream(uri)?.use { it.readBytes().toString(Charsets.UTF_8) } ?: error("Could not open file")
                     KeyboardPrefs.importJson(context, raw)
                 }
             }
-            r.onSuccess { Toast.makeText(context, tr("Восстановлено параметров: {0}", it), Toast.LENGTH_SHORT).show() }
+            r.onSuccess { Toast.makeText(context, tr("Restored settings: {0}", it), Toast.LENGTH_SHORT).show() }
                 .onFailure { Toast.makeText(context, tr("Error: {0}", it.message), Toast.LENGTH_LONG).show() }
         }
     }
     SettingsSection("Settings") {
-        ActionItem(Icons.Rounded.Upload, "Экспорт настроек", "Сохранить все параметры в .json", onClick = {
+        ActionItem(Icons.Rounded.Upload, "Export settings", "Save all settings to .json", onClick = {
             exportLauncher.launch("expressive-keyboard-settings.json")
         })
-        ActionItem(Icons.Rounded.Download, "Импорт настроек", "Восстановить из файла", onClick = {
+        ActionItem(Icons.Rounded.Download, "Import settings", "Restore from file", onClick = {
             importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
         })
         ActionItem(Icons.Rounded.RestartAlt, "Reset settings", "Dictionaries, plugins, and recent emoji will be kept", onClick = { confirm = "settings" })
     }
-    SettingsSection("Данные") {
+    SettingsSection("Data") {
         ActionItem(Icons.Rounded.AutoFixHigh, "Clear learned words", "Suggestions will forget your learned words and word pairs", onClick = { confirm = "dict" })
         ActionItem(Icons.Rounded.History, "Clear recent emoji", null, onClick = {
             EmojiRecents.clear(context)
@@ -1393,7 +1393,7 @@ internal fun BackupPage() {
             title = { Text(tr(if (what == "dict") "Clear learned words?" else "Reset settings?")) },
             text = {
                 Text(
-                    tr(if (what == "dict") "Все выученные слова будут удалены."
+                    tr(if (what == "dict") "All learned words will be deleted."
                     else "Dimensions, colors, theme, font, background, and vibration will be restored to their defaults.")
                 )
             },
@@ -1430,19 +1430,19 @@ internal fun AboutPage() {
             Icon(Icons.Rounded.Keyboard, null, tint = cs.onPrimary, modifier = Modifier.size(44.dp))
         }
         Text("Expressive Keyboard", style = MaterialTheme.typography.headlineSmall, fontWeight = FontWeight.ExtraBold, color = cs.onPrimaryContainer)
-        Text(tr("Версия {0}", version) + " · Material 3 Expressive", style = MaterialTheme.typography.bodyMedium, color = cs.onPrimaryContainer.copy(alpha = 0.8f))
+        Text(tr("Version {0}", version) + " · Material 3 Expressive", style = MaterialTheme.typography.bodyMedium, color = cs.onPrimaryContainer.copy(alpha = 0.8f))
     }
-    SettingsSection("Возможности") {
+    SettingsSection("Features") {
         listOf(
-            Icons.Rounded.Palette to "Material You: цвета из обоев или из любого своего цвета",
-            Icons.Rounded.Extension to "Моды на JavaScript: свои панели, кнопки, клавиши, события и подсказки",
+            Icons.Rounded.Palette to "Material You: colors from wallpaper or any custom color",
+            Icons.Rounded.Extension to "JavaScript mods: custom panels, buttons, keys, events, and suggestions",
             Icons.Rounded.Language to tr("{0} languages with frequency dictionaries, pinyin, kana, hangul, and Telex", Languages.all.size),
-            Icons.Rounded.EmojiEmotions to "Все эмодзи Unicode 16 с поиском и встроенными стилями",
-            Icons.Rounded.Brush to "Свои иконки для любых кнопок и вкладок эмодзи",
-            Icons.Rounded.Swipe to "Курсор свайпом по пробелу, удаление слов свайпом по ⌫",
+            Icons.Rounded.EmojiEmotions to "All Unicode 16 emoji with search and built-in styles",
+            Icons.Rounded.Brush to "Custom icons for any button and emoji tab",
+            Icons.Rounded.Swipe to "Move the cursor with a spacebar swipe; delete words with a backspace swipe",
             Icons.Rounded.SwapHoriz to "One-handed mode",
             Icons.Rounded.Translate to "Translator, GIF, clipboard, and voice input",
-            Icons.Rounded.Spellcheck to "Подсказки и автоисправление, которые учатся вашим словам"
+            Icons.Rounded.Spellcheck to "Suggestions and autocorrect that learn your words"
         ).forEach { (icon, text) ->
             GroupItem {
                 Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -1452,7 +1452,7 @@ internal fun AboutPage() {
             }
         }
     }
-    SettingsSection("Лицензии") {
+    SettingsSection("Licenses") {
         GroupItem {
             Text(
                 "Twemoji © Twitter / jdecked — CC-BY 4.0\n" +
