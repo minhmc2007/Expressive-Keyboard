@@ -1,6 +1,6 @@
 package com.expressive.keyboard
 
-/** Search по настройкам на главном экране: пункт → раздел, где он находится. */
+/** Поиск по настройкам на главном экране: пункт → раздел, где он находится. */
 object SettingsSearch {
     private val index: List<Pair<String, SettingsPage>> = buildList {
         fun add(page: SettingsPage, vararg titles: String) = titles.forEach { add(it to page) }
