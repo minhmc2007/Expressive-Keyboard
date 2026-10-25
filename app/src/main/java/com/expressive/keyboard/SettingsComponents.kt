@@ -728,7 +728,7 @@ internal fun ColorPickerDialog(
     )
 }
 
-/** Строка «элемент → цвет»; «Auto» показывает цвет темы пунктиром. */
+/** Строка «элемент → цвет»; «Авто» показывает цвет темы пунктиром. */
 @Composable
 internal fun ColorRow(title: String, value: Int, auto: Color, onClick: () -> Unit) {
     val cs = MaterialTheme.colorScheme
