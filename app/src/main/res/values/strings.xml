@@ -568,4 +568,8 @@
     <string name="i18n_this_device_has_no_speech_recognition_service_tap_othe">This device has no speech recognition service. Tap “Other voice input”</string>
     <string name="i18n_install_speech_recognition_synthesis_from_google">Install “Speech Recognition &amp; Synthesis from Google”</string>
     <string name="i18n_couldn_t_translate_check_your_connection">Couldn\'t translate — check your connection</string>
+    <string name="i18n_russian">Russian</string>
+    <string name="i18n_ai_text_correction_explanation">The ✨ button on the toolbar fixes selected text, or all text in the field if nothing is selected. “Auto” tries Gemini Nano on-device first, if available; otherwise it uses the service configured with an API key, then the free LanguageTool checker. Cloud services receive the text being corrected.</string>
+    <string name="i18n_language_settings_explanation">Switch languages with the 🌐 button (long-press to open the language list) or swipe on the spacebar. Available languages: {0}. Suggestions use frequency dictionaries: Russian, English, and Chinese are built in; other dictionaries are downloaded (~0.3–0.8 MB). Chinese uses Pinyin (nihao → 你好), Japanese uses Romaji (konnichiha → こんにちは), Korean syllables are assembled automatically, and Vietnamese uses Telex.</string>
+    <string name="i18n_layout_editor_explanation">Tap two keys to swap them. Long-press a key to replace it with your own character: a letter, number, or symbol. Long-press variants move with their key.</string>
 </resources>
