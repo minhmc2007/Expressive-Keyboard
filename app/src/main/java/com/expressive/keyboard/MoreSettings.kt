@@ -156,8 +156,8 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
         val code = lang.dict ?: return
         scope.launch {
             Dictionaries.download(context, code)
-                .onSuccess { Toast.makeText(context, tr("Словарь «{0}»: {1} слов", lang.displayTitle(), it), Toast.LENGTH_SHORT).show() }
-                .onFailure { Toast.makeText(context, tr("Не удалось скачать словарь: {0}", it.message), Toast.LENGTH_LONG).show() }
+                .onSuccess { Toast.makeText(context, tr("Dictionary “{0}”: {1} words", lang.displayTitle(), it), Toast.LENGTH_SHORT).show() }
+                .onFailure { Toast.makeText(context, tr("Could not download dictionary: {0}", it.message), Toast.LENGTH_LONG).show() }
         }
     }
 
@@ -419,7 +419,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         )
     }
     textFor?.let { slot ->
-        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), "Emoji или до 6 символов", onDismiss = { textFor = null }) { v ->
+        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), "Emoji or up to 6 characters", onDismiss = { textFor = null }) { v ->
             if (v.isNotBlank()) IconStore.setText(context, slot.id, v.trim()) else IconStore.reset(context, slot.id)
             textFor = null
         }
