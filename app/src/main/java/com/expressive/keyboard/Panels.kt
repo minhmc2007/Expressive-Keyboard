@@ -273,7 +273,7 @@ internal fun TranslatorBar(state: KeyboardState, actions: KeyboardActions, setti
     }
 }
 
-/** Onадки внизу между ABC и ⌫, как в Gboard; удержание эмодзи с тонами кожи — выбор тона. */
+/** Вкладки внизу между ABC и ⌫, как в Gboard; удержание эмодзи с тонами кожи — выбор тона. */
 @Composable
 internal fun EmojiPanel(actions: KeyboardActions, settings: KeyboardSettings, palette: KeyPalette, font: FontFamily) {
     val context = LocalContext.current
@@ -385,7 +385,7 @@ private fun EmojiTab(sel: Boolean, palette: KeyPalette, slot: String, icon: Stri
     }
 }
 
-/** Search emoji: запрос печатается обычной клавиатурой, результаты — лентой над ней. */
+/** Поиск эмодзи: запрос печатается обычной клавиатурой, результаты — лентой над ней. */
 @Composable
 internal fun EmojiSearchBar(state: KeyboardState, actions: KeyboardActions, settings: KeyboardSettings, palette: KeyPalette, font: FontFamily) {
     val context = LocalContext.current
@@ -580,7 +580,7 @@ internal fun GifPanel(state: KeyboardState, actions: KeyboardActions, settings: 
     }
 }
 
-/** Нажатие — вставить, ✕ — удалить запись, 📌 (или долгое нажатие) — закрепить: закреплённые не стираются «Clear». */
+/** Нажатие — вставить, ✕ — удалить запись, 📌 (или долгое нажатие) — закрепить: закреплённые не стираются «Очистить». */
 @Composable
 internal fun ClipboardPanel(state: KeyboardState, actions: KeyboardActions, palette: KeyPalette, font: FontFamily) {
     val pinned = state.pinnedClips.toList()
@@ -589,7 +589,7 @@ internal fun ClipboardPanel(state: KeyboardState, actions: KeyboardActions, pale
         modifier = Modifier.fillMaxSize().panelSurface(palette).padding(10.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        // высота шапки постоянная — записи не прыгают, когда «Clear» пропадает
+        // высота шапки постоянная — записи не прыгают, когда «Очистить» пропадает
         Row(Modifier.fillMaxWidth().height(44.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(tr("Clipboard"), Modifier.weight(1f), color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
             if (items.size > pinned.size) PillButton(tr("Clear"), palette.func, palette.onFunc, font) { actions.clearClipboard() }
