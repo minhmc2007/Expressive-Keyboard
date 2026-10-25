@@ -203,7 +203,7 @@ fun rememberKeyPalette(settings: KeyboardSettings): KeyPalette {
     ) { buildKeyPalette(cs, settings) }
 }
 
-/** Фоновая картинка декодируется в фоне один раз на версию файла. */
+/** Background image декодируется в фоне один раз на версию файла. */
 @Composable
 fun rememberBackgroundBitmap(version: Long): ImageBitmap? {
     val context = LocalContext.current
@@ -362,7 +362,7 @@ internal fun hintFor(label: String, variants: List<String>): String? {
         ?: variants.firstOrNull { !it.equals(label, ignoreCase = true) }
 }
 
-/** Положение клавиши относительно фона клавиатуры — нужно стеклу, чтобы «видеть», что под ним. */
+/** Position клавиши относительно фона клавиатуры — нужно стеклу, чтобы «видеть», что под ним. */
 internal fun keyPosIn(holder: CoordsHolder, backdrop: Backdrop?): Offset? {
     val k = holder.coords ?: return null
     val r = backdrop?.coords ?: return null
@@ -1174,7 +1174,7 @@ internal fun SuggestionStrip(state: KeyboardState, actions: KeyboardActions, pal
 
 /**
  * Улучшение текста в стиле Material You: клавиши мягко притушены, в центре — тональная плашка
- * с морфящимся индикатором (как LoadingIndicator из Material 3 Expressive). Готово — индикатор
+ * с морфящимся индикатором (как LoadingIndicator из Material 3 Expressive). Done — индикатор
  * сменяется галочкой, плашка ненадолго задерживается и уходит.
  */
 @Composable
@@ -1215,7 +1215,7 @@ internal fun BoxScope.AiGlowOverlay(busy: Boolean, done: Int, palette: KeyPalett
             }
             Spacer(Modifier.width(10.dp))
             Text(
-                tr(if (doneShown && !busy) "Готово" else "Улучшаю текст…"),
+                tr(if (doneShown && !busy) "Done" else "Improving text…"),
                 color = palette.onAccentSoft, fontFamily = font, fontSize = 15.sp, fontWeight = FontWeight.Medium, maxLines = 1
             )
         }
@@ -1289,7 +1289,7 @@ internal fun InlineSuggestionStrip(views: List<android.view.View>) {
 /** Куда уводить подсказки, которые не поместились: за любой экран. */
 private const val OFFSCREEN_PX = 100_000
 
-/** Панель редактирования: курсор, выделение, копировать и вставить. Стрелки повторяются при удержании. */
+/** Editing toolbar: курсор, выделение, копировать и вставить. Стрелки повторяются при удержании. */
 @Composable
 internal fun EditBar(state: KeyboardState, actions: KeyboardActions, palette: KeyPalette) {
     val tint = LocalSkin.current?.buttons?.text ?: palette.onFunc
@@ -1373,7 +1373,7 @@ internal fun ClipOfferStrip(entry: String, actions: KeyboardActions, palette: Ke
                 }
             }
             Text(
-                if (image) tr("Вставить картинку") else entry.replace('\n', ' '),
+                if (image) tr("Paste image") else entry.replace('\n', ' '),
                 color = palette.onAccentSoft, fontFamily = font, fontSize = 15.sp, fontWeight = FontWeight.SemiBold,
                 maxLines = 1, overflow = TextOverflow.Ellipsis
             )
@@ -1382,7 +1382,7 @@ internal fun ClipOfferStrip(entry: String, actions: KeyboardActions, palette: Ke
         Box(
             Modifier.size(34.dp).clip(CircleShape).clickable { actions.dismissClipOffer() },
             contentAlignment = Alignment.Center
-        ) { Icon(Icons.Rounded.Close, tr("Скрыть"), tint = palette.onFunc.copy(alpha = 0.7f), modifier = Modifier.size(18.dp)) }
+        ) { Icon(Icons.Rounded.Close, tr("Hide"), tint = palette.onFunc.copy(alpha = 0.7f), modifier = Modifier.size(18.dp)) }
     }
 }
 
@@ -1465,22 +1465,22 @@ data class ToolDef(val id: String, val title: String, val slot: String?, val ico
 object Toolbar {
     /** Все кнопки в порядке по умолчанию. Читает состояние плагинов — вызывать из композиции или главного потока. */
     fun catalog(): List<ToolDef> = buildList {
-        add(ToolDef("plugins", "Плагины", "plugins", Icons.Rounded.Extension, null))
+        add(ToolDef("plugins", "Plugins", "plugins", Icons.Rounded.Extension, null))
         for (p in PluginRepository.active) {
             p.actions.forEachIndexed { i, a ->
                 if (a.pinned) add(ToolDef("pin:${p.id}#$i", a.title, if (a.icon == "@layout_swap") "layout_swap" else null, null, a.icon))
             }
         }
         for (b in ScriptHost.buttons) if (b.toolbar) add(ToolDef("btn:${b.pluginId}:${b.id}", b.title, null, null, b.icon))
-        add(ToolDef("translate", "Переводчик", "translate", Icons.Rounded.Translate, null))
-        add(ToolDef("ai_fix", "Исправить текст", "ai_fix", Icons.Rounded.AutoFixHigh, null))
+        add(ToolDef("translate", "Translator", "translate", Icons.Rounded.Translate, null))
+        add(ToolDef("ai_fix", "Fix text", "ai_fix", Icons.Rounded.AutoFixHigh, null))
         add(ToolDef("gif", "GIF", "gif", Icons.Rounded.GifBox, null))
-        add(ToolDef("clipboard", "Буфер обмена", "clipboard", Icons.Rounded.ContentPaste, null))
-        add(ToolDef("emoji", "Эмодзи", "emoji", Icons.Rounded.EmojiEmotions, null))
-        add(ToolDef("one_handed", "Одна рука", "one_handed", Icons.Rounded.SwapHoriz, null))
-        add(ToolDef("incognito", "Инкогнито", "incognito", Icons.Rounded.VisibilityOff, null))
-        add(ToolDef("settings", "Настройки", "settings", Icons.Rounded.Settings, null))
-        add(ToolDef("hide", "Скрыть клавиатуру", "hide", Icons.Rounded.KeyboardHide, null))
+        add(ToolDef("clipboard", "Clipboard", "clipboard", Icons.Rounded.ContentPaste, null))
+        add(ToolDef("emoji", "Emoji", "emoji", Icons.Rounded.EmojiEmotions, null))
+        add(ToolDef("one_handed", "One-handed mode", "one_handed", Icons.Rounded.SwapHoriz, null))
+        add(ToolDef("incognito", "Incognito", "incognito", Icons.Rounded.VisibilityOff, null))
+        add(ToolDef("settings", "Settings", "settings", Icons.Rounded.Settings, null))
+        add(ToolDef("hide", "Hide клавиатуру", "hide", Icons.Rounded.KeyboardHide, null))
     }
 
     /** Сохранённый порядок; новые кнопки встают рядом со своими соседями по умолчанию. */
@@ -1536,7 +1536,7 @@ internal fun ToolbarPill(state: KeyboardState, actions: KeyboardActions, setting
             id == "one_handed" -> KeyboardPrefs.edit(context) { putString("one_handed", if (settings.oneHanded == "OFF") "RIGHT" else "OFF") }
             id == "incognito" -> {
                 KeyboardPrefs.edit(context) { putBoolean("incognito", !settings.incognito) }
-                Toast.makeText(context, tr(if (settings.incognito) "Инкогнито выключено" else "Инкогнито: слова и буфер не запоминаются"), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, tr(if (settings.incognito) "Incognito выключено" else "Incognito: слова и буфер не запоминаются"), Toast.LENGTH_SHORT).show()
             }
             id == "settings" -> actions.openSettings()
             id == "hide" -> actions.hideKeyboard()
@@ -1866,7 +1866,7 @@ internal fun PanelBody(
     }
 }
 
-/** Режим одной руки: клавиатура сжимается к краю, на свободном месте — кнопки «перенести» и «развернуть». */
+/** Mode одной руки: клавиатура сжимается к краю, на свободном месте — кнопки «перенести» и «развернуть». */
 @Composable
 internal fun KeyArea(
     state: KeyboardState,
@@ -1903,12 +1903,12 @@ internal fun OneHandRail(modifier: Modifier, palette: KeyPalette, mode: String, 
             Modifier.size(44.dp).clip(RoundedCornerShape(16.dp)).background(palette.func)
                 .clickable { KeyboardPrefs.edit(context) { putString("one_handed", if (mode == "LEFT") "RIGHT" else "LEFT") } },
             contentAlignment = Alignment.Center
-        ) { Icon(Icons.Rounded.SwapHoriz, "Перенести", tint = palette.onFunc) }
+        ) { Icon(Icons.Rounded.SwapHoriz, "Move", tint = palette.onFunc) }
         Box(
             Modifier.size(44.dp).clip(CircleShape).background(palette.accentSoft)
                 .clickable { KeyboardPrefs.edit(context) { putString("one_handed", "OFF") } },
             contentAlignment = Alignment.Center
-        ) { Icon(Icons.Rounded.OpenInFull, "Развернуть", tint = palette.onAccentSoft) }
+        ) { Icon(Icons.Rounded.OpenInFull, "Expand", tint = palette.onAccentSoft) }
     }
 }
 
