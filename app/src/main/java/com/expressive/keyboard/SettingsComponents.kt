@@ -173,13 +173,13 @@ internal fun HeroCard(
             }
             Column(Modifier.weight(1f)) {
                 Text(
-                    tr(if (ready) "Всё готово" else "Почти готово"),
+                    tr(if (ready) "All set" else "Almost there"),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer
                 )
                 Text(
-                    tr(if (ready) "Клавиатура включена и выбрана" else "Onючите клавиатуру и выберите её по умолчанию"),
+                    tr(if (ready) "Keyboard enabled and selected" else "Enable the keyboard and set it as default"),
                     style = MaterialTheme.typography.bodyMedium,
                     color = (if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer).copy(alpha = 0.8f)
                 )
@@ -191,9 +191,9 @@ internal fun HeroCard(
             exit = shrinkVertically(spring(dampingRatio = 0.9f, stiffness = 400f)) + fadeOut()
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                StepRow(1, "Onючить в системе", imeEnabled, "Onючить", onEnable)
+                StepRow(1, "Enable in system", imeEnabled, "Enable", onEnable)
                 StepRow(2, "Выбрать по умолчанию", imeSelected, "Выбрать", onSelect)
-                StepRow(3, "Микрофон для голосового ввода", micGranted, "Разрешить", onMic)
+                StepRow(3, "Microphone for voice input", micGranted, "Allow", onMic)
             }
         }
     }
@@ -694,17 +694,17 @@ internal fun ColorPickerDialog(
                         modifier = Modifier.weight(1f)
                     )
                 }
-                Text(tr("Оттенок"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Hue"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(h / 360f, remember { Brush.horizontalGradient((0..6).map { hsvColor(it * 60f, 1f, 1f) }) }, hsvColor(h, 1f, 1f)) {
                     h = it * 360f
                     syncHex()
                 }
-                Text(tr("Насыщенность"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Saturation"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(s, Brush.horizontalGradient(listOf(hsvColor(h, 0f, v), hsvColor(h, 1f, v))), color) {
                     s = it
                     syncHex()
                 }
-                Text(tr("Яркость"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Brightness"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(v, Brush.horizontalGradient(listOf(Color.Black, hsvColor(h, s, 1f))), color) {
                     v = it
                     syncHex()
@@ -746,7 +746,7 @@ internal fun ColorRow(title: String, value: Int, auto: Color, onClick: () -> Uni
             Column(Modifier.weight(1f)) {
                 Text(tr(title), style = MaterialTheme.typography.titleMedium, color = cs.onSurface)
                 Text(
-                    if (value == 0) tr("Auto (из темы)") else "#" + String.format("%06X", value and 0xFFFFFF),
+                    if (value == 0) tr("Auto (from theme)") else "#" + String.format("%06X", value and 0xFFFFFF),
                     style = MaterialTheme.typography.bodyMedium, color = cs.onSurfaceVariant
                 )
             }
@@ -767,7 +767,7 @@ internal fun TextInputDialog(title: String, initial: String, hint: String, onDis
                 placeholder = { Text(tr(hint)) }, shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()
             )
         },
-        confirmButton = { Button(onClick = { onDone(text.trim()) }) { Text(tr("Сохранить")) } },
+        confirmButton = { Button(onClick = { onDone(text.trim()) }) { Text(tr("Save")) } },
         dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Cancel")) } }
     )
 }
