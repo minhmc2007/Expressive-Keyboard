@@ -1289,7 +1289,7 @@ internal fun InlineSuggestionStrip(views: List<android.view.View>) {
 /** Куда уводить подсказки, которые не поместились: за любой экран. */
 private const val OFFSCREEN_PX = 100_000
 
-/** Editing toolbar: курсор, выделение, копировать и вставить. Стрелки повторяются при удержании. */
+/** Панель редактирования: курсор, выделение, копировать и вставить. Стрелки повторяются при удержании. */
 @Composable
 internal fun EditBar(state: KeyboardState, actions: KeyboardActions, palette: KeyPalette) {
     val tint = LocalSkin.current?.buttons?.text ?: palette.onFunc
