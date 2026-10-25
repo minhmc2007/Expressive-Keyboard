@@ -924,7 +924,7 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
             when (settings.spaceSwipe) {
                 "CURSOR" -> "Slide your finger on the spacebar to move the cursor"
                 "LANGUAGE" -> "Swipe to switch languages"
-                else -> "Жест выключен"
+                else -> "Gesture disabled"
             },
             listOf("CURSOR" to "Cursor", "LANGUAGE" to "Language", "OFF" to "Off"), settings.spaceSwipe
         ) { v -> KeyboardPrefs.edit(context) { putString("space_swipe", v) } }
@@ -1039,16 +1039,16 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
                         )
                     }
                 }
-                ToggleItem(Icons.Rounded.Keyboard, "Сильнее на Shift, Enter, пробеле", null, settings.strongSpecialKeys) {
+                ToggleItem(Icons.Rounded.Keyboard, "Stronger feedback on Shift, Enter, and space", null, settings.strongSpecialKeys) {
                     KeyboardPrefs.edit(context) { putBoolean("strong_special_keys", it) }
                 }
-                ToggleItem(Icons.Rounded.SwapVert, "Отклик при отпускании", null, settings.vibrateOnRelease) {
+                ToggleItem(Icons.Rounded.SwapVert, "Feedback on key release", null, settings.vibrateOnRelease) {
                     KeyboardPrefs.edit(context) { putBoolean("vibrate_on_release", it) }
                 }
             }
         }
     }
-    SettingsSection("Звук") {
+    SettingsSection("Sound") {
         ToggleItem(Icons.Rounded.MusicNote, "Keypress sound", null, settings.soundEnabled) {
             KeyboardPrefs.edit(context) { putBoolean("sound_enabled", it) }
         }
@@ -1063,11 +1063,11 @@ internal fun FeedbackPage(settings: KeyboardSettings) {
                 ActionItem(
                     Icons.Rounded.AudioFile,
                     if (settings.customSoundVersion != 0L) "Change custom sound" else "Custom keypress sound",
-                    "Короткий аудиофайл (до 1 МБ): mp3, ogg, wav",
+                    "Short audio file (up to 1 MB): mp3, ogg, wav",
                     onClick = { soundLauncher.launch("audio/*") }
                 )
                 if (settings.customSoundVersion != 0L) {
-                    ActionItem(Icons.Rounded.RestartAlt, "Вернуть системный звук", null, onClick = {
+                    ActionItem(Icons.Rounded.RestartAlt, "Restore system sound", null, onClick = {
                         java.io.File(context.filesDir, HapticsEngine.SOUND_FILE).delete()
                         KeyboardPrefs.edit(context) { putLong("custom_sound_version", 0L) }
                     })
@@ -1092,10 +1092,10 @@ internal fun PluginsPage() {
 
     fun onImported(r: Result<KeyboardPlugin>) {
         r.onSuccess { p ->
-            Toast.makeText(context, tr("Плагин «{0}» установлен", p.name), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, tr("Plugin “{0}” installed", p.name), Toast.LENGTH_SHORT).show()
             expanded = p.id
             if (p.usesNetwork || "read_text" in p.permissions || "clipboard" in p.permissions) pendingNetwork = p
-        }.onFailure { Toast.makeText(context, tr("Ошибка: {0}", it.message), Toast.LENGTH_LONG).show() }
+        }.onFailure { Toast.makeText(context, tr("Error: {0}", it.message), Toast.LENGTH_LONG).show() }
     }
     val modExampleLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/javascript")) { uri: Uri? ->
         if (uri != null) scope.launch {
@@ -1105,7 +1105,7 @@ internal fun PluginsPage() {
                     context.contentResolver.openOutputStream(uri)?.use { it.write(bytes) }
                 }.isSuccess
             }
-            Toast.makeText(context, if (ok) tr("Пример мода сохранён — отредактируйте и импортируйте") else tr("Could not save"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, if (ok) tr("Example mod saved — edit and import it") else tr("Could not save"), Toast.LENGTH_SHORT).show()
         }
     }
     val importLauncher = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
@@ -1116,37 +1116,37 @@ internal fun PluginsPage() {
             val ok = withContext(Dispatchers.IO) {
                 runCatching { context.contentResolver.openOutputStream(uri)?.use { it.write(PluginRepository.EXAMPLE.toByteArray()) } }.isSuccess
             }
-            Toast.makeText(context, if (ok) tr("Пример сохранён — отредактируйте и импортируйте") else tr("Could not save"), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, if (ok) tr("Example saved — edit and import it") else tr("Could not save"), Toast.LENGTH_SHORT).show()
         }
     }
 
     InfoCard(
         Icons.Rounded.Extension,
-        "Как установить: нажмите «Импорт из файла» и выберите плагин (.json, .js или .zip) или скопируйте его текст " +
-            "и нажмите «Импорт из буфера обмена». Плагин появится в списке ниже — его можно включить, выключить или удалить.\n\n" +
-            "Как пользоваться: на клавиатуре нажмите кнопку с сеткой слева вверху, затем 🧩 — откроются вкладки плагинов " +
-            "с их кнопками и панелями. Кнопки, отмеченные плагином, появляются прямо на панели инструментов.\n\n" +
-            "Как сделать свой: сохраните пример кнопкой ниже, отредактируйте и импортируйте. Описание формата — в файле PLUGINS.md."
+        "To install: tap “Import from file” and choose a plugin (.json, .js, or .zip), or copy its text " +
+            "and tap “Import from clipboard”. The plugin will appear below, where you can enable, disable, or remove it.\\n\\n" +
+            "To use it: tap the grid button at the top left of the keyboard, then 🧩 to open plugin tabs " +
+            "with their buttons and panels. Pinned plugin buttons appear directly on the toolbar.\\n\\n" +
+            "To create your own: save the example below, edit it, and import it. See PLUGINS.md for the format."
     )
-    SettingsSection("Установка") {
-        ActionItem(Icons.Rounded.FileOpen, "Импорт из файла", ".js (мод), .zip (мод с картинками) или .json", onClick = {
+    SettingsSection("Installation") {
+        ActionItem(Icons.Rounded.FileOpen, "Import from file", ".js (mod), .zip (mod with images), or .json", onClick = {
             importLauncher.launch(arrayOf("application/json", "application/javascript", "text/javascript", "application/zip", "text/plain", "application/octet-stream", "*/*"))
         })
-        ActionItem(Icons.Rounded.Code, "Сохранить пример мода (.js)", "Своя панель, кнопка, реакция на слова и хранилище", onClick = {
+        ActionItem(Icons.Rounded.Code, "Save example mod (.js)", "Custom panel, button, word triggers, and storage", onClick = {
             modExampleLauncher.launch("my-mod.js")
         })
-        ActionItem(Icons.Rounded.ContentPaste, "Импорт из буфера обмена", "Скопируйте JSON плагина или код мода и нажмите", onClick = {
+        ActionItem(Icons.Rounded.ContentPaste, "Import from clipboard", "Copy plugin JSON or mod code, then tap", onClick = {
             val cm = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val text = cm.primaryClip?.takeIf { it.itemCount > 0 }?.getItemAt(0)?.coerceToText(context)?.toString().orEmpty()
             if (text.isBlank()) Toast.makeText(context, tr("Clipboard is empty"), Toast.LENGTH_SHORT).show()
             else onImported(PluginRepository.importText(context, text))
         })
-        ActionItem(Icons.Rounded.Download, "Сохранить пример плагина", "Шаблон со всеми возможностями формата", onClick = {
+        ActionItem(Icons.Rounded.Download, "Save example plugin", "Template demonstrating all format features", onClick = {
             exampleLauncher.launch("my-plugin.json")
         })
     }
     if (errors.isNotEmpty()) {
-        SettingsSection("Не загрузились") {
+        SettingsSection("Failed to load") {
             errors.forEach { e ->
                 GroupItem {
                     Row(Modifier.padding(16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -1160,13 +1160,13 @@ internal fun PluginsPage() {
     val user = plugins.filter { !it.builtIn }
     val builtIn = plugins.filter { it.builtIn }
     if (user.isNotEmpty()) {
-        SettingsSection("Мои плагины") {
+        SettingsSection("My plugins") {
             user.forEach { p ->
                 PluginCard(p, expanded == p.id, onExpand = { expanded = if (expanded == p.id) null else p.id }, onDelete = { confirmDelete = p })
             }
         }
     }
-    SettingsSection("Встроенные") {
+    SettingsSection("Built-in") {
         builtIn.forEach { p ->
             PluginCard(p, expanded == p.id, onExpand = { expanded = if (expanded == p.id) null else p.id }, onDelete = null)
         }
@@ -1177,7 +1177,7 @@ internal fun PluginsPage() {
             onDismissRequest = { confirmDelete = null },
             icon = { Icon(Icons.Rounded.DeleteOutline, null) },
             title = { Text(tr("Delete «{0}»?", p.name)) },
-            text = { Text(tr("Файл плагина будет удалён. Его можно импортировать заново.")) },
+            text = { Text(tr("The plugin file will be deleted. You can import it again.")) },
             confirmButton = {
                 Button(onClick = {
                     PluginRepository.delete(context, p.id)
@@ -1191,12 +1191,12 @@ internal fun PluginsPage() {
         AlertDialog(
             onDismissRequest = { pendingNetwork = null },
             icon = { Icon(Icons.Rounded.Security, null) },
-            title = { Text(tr("Разрешения плагина")) },
+            title = { Text(tr("Plugin permissions")) },
             text = {
                 Text(
-                    tr("«{0}» просит:", p.name) + "\n\n" + buildList {
-                        if ("read_text" in p.permissions) add("• " + tr("читать набираемый текст и текст в поле"))
-                        if ("clipboard" in p.permissions) add("• " + tr("читать историю буфера обмена"))
+                    tr("“{0}” requests:", p.name) + "\n\n" + buildList {
+                        if ("read_text" in p.permissions) add("• " + tr("read typed text and the text in the input field"))
+                        if ("clipboard" in p.permissions) add("• " + tr("read clipboard history"))
                         if ("network" in p.permissions) add(
                             "• " + tr("выходить в интернет") + p.actions.filter { it.type == PluginActionType.HTTP }
                                 .joinToString("") { "\n   ${it.title}: ${Uri.parse(it.url).host}" }
@@ -1367,7 +1367,7 @@ internal fun BackupPage() {
                 }
             }
             r.onSuccess { Toast.makeText(context, tr("Восстановлено параметров: {0}", it), Toast.LENGTH_SHORT).show() }
-                .onFailure { Toast.makeText(context, tr("Ошибка: {0}", it.message), Toast.LENGTH_LONG).show() }
+                .onFailure { Toast.makeText(context, tr("Error: {0}", it.message), Toast.LENGTH_LONG).show() }
         }
     }
     SettingsSection("Settings") {
