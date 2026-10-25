@@ -164,13 +164,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
     InfoCard(
         Icons.Rounded.Language,
         tr(
-            "Language меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
-                "Подсказки работают по частотному словарю: русский, английский и китайский встроены, остальные скачиваются " +
-                "(~0,3–0,8 МБ). Китайский набирается пиньинем (nihao → 你好), японский — ромадзи (konnichiha → こんにちは), " +
-                "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
+            "Switch languages with 🌐 (long-press for the list) or swipe on the spacebar. Languages available: {0}. " +
+                "Suggestions use frequency dictionaries: Russian, English, and Chinese are built in; others can be downloaded " +
+                "(~0.3–0.8 MB). Type Chinese with pinyin (nihao → 你好), Japanese with romaji (konnichiha → こんにちは), " +
+                "Korean syllables are assembled automatically, and Vietnamese uses Telex.", Languages.all.size
         )
     )
-    SettingsSection("Onючённые языки") {
+    SettingsSection("Enabled languages") {
         enabled.forEachIndexed { i, lang ->
             key(dictVersion, lang.id) {
                 LanguageRow(
@@ -178,13 +178,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                     dictState(context, lang, status),
                     trailing = {
                         IconButton(onClick = { if (i > 0) save(enabled.toMutableList().also { java.util.Collections.swap(it, i, i - 1) }) }, enabled = i > 0) {
-                            Icon(Icons.Rounded.KeyboardArrowUp, "Выше")
+                            Icon(Icons.Rounded.KeyboardArrowUp, "Move up")
                         }
                         IconButton(onClick = { if (i < enabled.lastIndex) save(enabled.toMutableList().also { java.util.Collections.swap(it, i, i + 1) }) }, enabled = i < enabled.lastIndex) {
-                            Icon(Icons.Rounded.KeyboardArrowDown, "Ниже")
+                            Icon(Icons.Rounded.KeyboardArrowDown, "Move down")
                         }
                         IconButton(onClick = { save(enabled - lang) }, enabled = enabled.size > 1) {
-                            Icon(Icons.Rounded.RemoveCircleOutline, "Убрать", tint = if (enabled.size > 1) cs.error else cs.outline)
+                            Icon(Icons.Rounded.RemoveCircleOutline, "Remove", tint = if (enabled.size > 1) cs.error else cs.outline)
                         }
                     },
                     onDict = { download(lang) }
@@ -192,14 +192,14 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
             }
         }
     }
-    SettingsSection("Добавить язык") {
+    SettingsSection("Add language") {
         GroupItem {
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it },
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
                 shape = RoundedCornerShape(24.dp),
-                placeholder = { Text(tr("Search: немецкий, Deutsch, de…")) },
+                placeholder = { Text(tr("Search: German, Deutsch, de…")) },
                 leadingIcon = { Icon(Icons.Rounded.Search, null) },
                 singleLine = true
             )
@@ -213,36 +213,36 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                         FilledTonalIconButton(onClick = {
                             save(enabled + lang)
                             if (settings.dictAutoDownload && lang.dict != null && !Dictionaries.isInstalled(context, lang.dict)) download(lang)
-                        }) { Icon(Icons.Rounded.Add, "Добавить") }
+                        }) { Icon(Icons.Rounded.Add, "Add") }
                     }, onDict = null)
                 }
             }
     }
-    SettingsSection("Словари") {
-        ToggleItem(Icons.Rounded.CloudDownload, "Скачивать словарь автоматически", "При добавлении языка и при первом наборе на нём", settings.dictAutoDownload) {
+    SettingsSection("Dictionaries") {
+        ToggleItem(Icons.Rounded.CloudDownload, "Download dictionaries automatically", "When adding a language and the first time you type in it", settings.dictAutoDownload) {
             KeyboardPrefs.edit(context) { putBoolean("dict_auto_download", it) }
         }
     }
 }
 
 private fun dictState(context: Context, lang: KeyboardLanguage, status: Map<String, String>, enabled: Boolean = true): String {
-    if (lang.composer == Composer.PINYIN) return tr("Встроенный словарь пиньиня — 40 000 слов")
-    if (lang.composer == Composer.KANA) return tr("Хирагана и катакана из латиницы")
-    val code = lang.dict ?: return tr("Без словаря — подсказки из ваших слов")
-    status[code]?.let { return if (it == "загрузка…") tr("Словарь загружается…") else tr("Ошибка: {0}", it) }
+    if (lang.composer == Composer.PINYIN) return tr("Built-in pinyin dictionary — 40,000 words")
+    if (lang.composer == Composer.KANA) return tr("Hiragana and katakana from romaji")
+    val code = lang.dict ?: return tr("No dictionary — suggestions from your learned words")
+    status[code]?.let { return if (it == "Downloading…") tr("Dictionary is downloading…") else tr("Error: {0}", it) }
     return when {
-        Dictionaries.bundled(context, code) -> tr("Словарь встроен")
-        Dictionaries.isInstalled(context, code) -> tr("Словарь скачан")
-        enabled -> tr("Словарь не скачан — нажмите, чтобы скачать")
-        else -> tr("Есть словарь подсказок")
+        Dictionaries.bundled(context, code) -> tr("Dictionary is built in")
+        Dictionaries.isInstalled(context, code) -> tr("Dictionary downloaded")
+        enabled -> tr("Dictionary not downloaded — tap to download")
+        else -> tr("Suggestion dictionary available")
     }
 }
 
 @Composable
 private fun LanguageRow(lang: KeyboardLanguage, state: String, trailing: @Composable RowScope.() -> Unit, onDict: (() -> Unit)?) {
     val cs = MaterialTheme.colorScheme
-    val error = state.startsWith(tr("Ошибка: {0}", ""))
-    val canDownload = onDict != null && (state == tr("Словарь не скачан — нажмите, чтобы скачать") || error)
+    val error = state.startsWith(tr("Error: {0}", ""))
+    val canDownload = onDict != null && (state == tr("Dictionary not downloaded — tap to download") || error)
     GroupItem(onClick = if (canDownload) onDict else null) {
         Row(
             Modifier.fillMaxWidth().padding(start = 16.dp, end = 8.dp, top = 10.dp, bottom = 10.dp),
@@ -334,23 +334,23 @@ internal fun IconsPage(settings: KeyboardSettings) {
                 }.isSuccess
             }
             if (ok) KeyboardPrefs.setEmojiFont(context)
-            else Toast.makeText(context, tr("Нужен файл шрифта .ttf с цветными эмодзи"), Toast.LENGTH_LONG).show()
+            else Toast.makeText(context, tr("A .ttf font file with colored emoji is required"), Toast.LENGTH_LONG).show()
         }
     }
 
-    SettingsSection("Стиль эмодзи") {
+    SettingsSection("Emoji style") {
         GroupItem { EmojiStylePicker(settings) { emojiFontLauncher.launch("*/*") } }
         if (settings.emojiFontVersion != 0L) {
             ActionItem(
-                Icons.Rounded.DeleteOutline, "Delete свой шрифт эмодзи", null,
+                Icons.Rounded.DeleteOutline, "Delete custom emoji font", null,
                 onClick = { KeyboardPrefs.resetEmojiFont(context) }
             )
         }
     }
     InfoCard(
         Icons.Rounded.Brush,
-        "Нажмите на иконку, чтобы заменить её своей картинкой (PNG с прозрачностью смотрится лучше всего) " +
-            "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Plugins тоже могут менять иконки."
+        "Tap an icon to replace it with your own image (transparent PNG works best) " +
+            "or emoji/text. Images can be tinted to match the theme. Plugins can also change icons."
     )
     IconStore.slots.groupBy { it.group }.forEach { (group, slots) ->
         SettingsSection(group) {
@@ -369,15 +369,15 @@ internal fun IconsPage(settings: KeyboardSettings) {
                             Text(tr(slot.title), style = MaterialTheme.typography.titleMedium, color = cs.onSurface)
                             Text(
                                 when (custom) {
-                                    null -> tr(if (IconStore.get(slot.id) != null) "Из плагина" else "Стандартная")
-                                    is CustomIcon.Picture -> tr(if (custom.tint) "Своя картинка · в цвет темы" else "Своя картинка")
-                                    is CustomIcon.Label -> tr("Свой текст: {0}", custom.text)
+                                    null -> tr(if (IconStore.get(slot.id) != null) "From plugin" else "Default")
+                                    is CustomIcon.Picture -> tr(if (custom.tint) "Custom image · tinted to theme" else "Custom image")
+                                    is CustomIcon.Label -> tr("Custom text: {0}", custom.text)
                                 },
                                 style = MaterialTheme.typography.bodySmall, color = cs.onSurfaceVariant
                             )
                         }
                         if (custom != null) {
-                            IconButton(onClick = { IconStore.reset(context, slot.id) }) { Icon(Icons.Rounded.RestartAlt, "Вернуть стандартную") }
+                            IconButton(onClick = { IconStore.reset(context, slot.id) }) { Icon(Icons.Rounded.RestartAlt, "Restore default") }
                         }
                     }
                 }
@@ -385,7 +385,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         }
     }
     SettingsSection(null) {
-        ActionItem(Icons.Rounded.RestartAlt, "Вернуть все иконки", null, onClick = { confirmReset = true })
+        ActionItem(Icons.Rounded.RestartAlt, "Restore all icons", null, onClick = { confirmReset = true })
     }
 
     menuFor?.let { slot ->
@@ -397,20 +397,20 @@ internal fun IconsPage(settings: KeyboardSettings) {
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     FilledTonalButton(onClick = { target = slot; menuFor = null; imageLauncher.launch("image/*") }, modifier = Modifier.fillMaxWidth()) {
-                        Icon(Icons.Rounded.Image, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Картинка из галереи"))
+                        Icon(Icons.Rounded.Image, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Image from gallery"))
                     }
                     FilledTonalButton(onClick = { textFor = slot; menuFor = null }, modifier = Modifier.fillMaxWidth()) {
-                        Icon(Icons.Rounded.EmojiEmotions, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Emoji или текст"))
+                        Icon(Icons.Rounded.EmojiEmotions, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Emoji or text"))
                     }
                     if (custom is CustomIcon.Picture) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            Text(tr("Перекрашивать в цвет темы"), Modifier.weight(1f))
+                            Text(tr("Tint to match theme"), Modifier.weight(1f))
                             Switch(checked = custom.tint, onCheckedChange = { IconStore.setTint(context, slot.id, it) })
                         }
                     }
                     if (custom != null) {
                         OutlinedButton(onClick = { IconStore.reset(context, slot.id); menuFor = null }, modifier = Modifier.fillMaxWidth()) {
-                            Text(tr("Вернуть стандартную"))
+                            Text(tr("Restore default"))
                         }
                     }
                 }
@@ -427,9 +427,9 @@ internal fun IconsPage(settings: KeyboardSettings) {
     if (confirmReset) {
         AlertDialog(
             onDismissRequest = { confirmReset = false },
-            title = { Text(tr("Вернуть все иконки?")) },
-            text = { Text(tr("Свои картинки и тексты будут удалены.")) },
-            confirmButton = { Button(onClick = { IconStore.resetAll(context); confirmReset = false }) { Text(tr("Вернуть")) } },
+            title = { Text(tr("Restore all icons?")) },
+            text = { Text(tr("Custom images and text will be deleted.")) },
+            confirmButton = { Button(onClick = { IconStore.resetAll(context); confirmReset = false }) { Text(tr("Restore")) } },
             dismissButton = { TextButton(onClick = { confirmReset = false }) { Text(tr("Cancel")) } }
         )
     }
@@ -451,10 +451,10 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.DragIndicator,
-        "Порядок кнопок на панели инструментов (кнопка с сеткой слева вверху). На самой клавиатуре порядок тоже " +
-            "меняется: удерживайте кнопку и перетащите её влево или вправо."
+        "Toolbar button order (grid button at the top left). You can also change the order on the keyboard " +
+            "by long-pressing a button and dragging it left or right."
     )
-    SettingsSection("Кнопки") {
+    SettingsSection("Buttons") {
         order.forEachIndexed { i, id ->
             val def = byId[id] ?: return@forEachIndexed
             val visible = id !in hidden
@@ -476,10 +476,10 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
                         color = if (visible) cs.onSurface else cs.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis
                     )
                     IconButton(onClick = { saveOrder(order.toMutableList().also { java.util.Collections.swap(it, i, i - 1) }) }, enabled = i > 0) {
-                        Icon(Icons.Rounded.KeyboardArrowUp, "Раньше")
+                        Icon(Icons.Rounded.KeyboardArrowUp, "Earlier")
                     }
                     IconButton(onClick = { saveOrder(order.toMutableList().also { java.util.Collections.swap(it, i, i + 1) }) }, enabled = i < order.lastIndex) {
-                        Icon(Icons.Rounded.KeyboardArrowDown, "Позже")
+                        Icon(Icons.Rounded.KeyboardArrowDown, "Later")
                     }
                     Switch(
                         checked = visible,
@@ -490,7 +490,7 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
         }
     }
     SettingsSection(null) {
-        ActionItem(Icons.Rounded.RestartAlt, "Порядок по умолчанию", "Все кнопки снова видны", onClick = {
+        ActionItem(Icons.Rounded.RestartAlt, "Default order", "All buttons will be visible again", onClick = {
             KeyboardPrefs.edit(context) { remove("toolbar_order"); remove("toolbar_hidden") }
         })
     }
@@ -503,7 +503,7 @@ internal fun EmojiStylePicker(settings: KeyboardSettings, onCustom: () -> Unit) 
     val cs = MaterialTheme.colorScheme
     val font = remember(settings.emojiFontVersion) { FontRepository.emoji(context, settings.emojiFontVersion) }
     val options = listOf(EmojiStyles.SYSTEM to tr("System default")) + EmojiStyles.builtIn.map { it.first to it.second } +
-        (EmojiStyles.CUSTOM to tr("Свой шрифт…"))
+        (EmojiStyles.CUSTOM to tr("Custom font…"))
     Row(
         Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
