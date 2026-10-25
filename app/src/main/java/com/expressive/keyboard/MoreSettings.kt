@@ -164,13 +164,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
     InfoCard(
         Icons.Rounded.Language,
         tr(
-            "Язык меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
+            "Language меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
                 "Подсказки работают по частотному словарю: русский, английский и китайский встроены, остальные скачиваются " +
                 "(~0,3–0,8 МБ). Китайский набирается пиньинем (nihao → 你好), японский — ромадзи (konnichiha → こんにちは), " +
                 "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
         )
     )
-    SettingsSection("Включённые языки") {
+    SettingsSection("Onючённые языки") {
         enabled.forEachIndexed { i, lang ->
             key(dictVersion, lang.id) {
                 LanguageRow(
@@ -199,7 +199,7 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
                 onValueChange = { query = it },
                 modifier = Modifier.fillMaxWidth().padding(12.dp),
                 shape = RoundedCornerShape(24.dp),
-                placeholder = { Text(tr("Поиск: немецкий, Deutsch, de…")) },
+                placeholder = { Text(tr("Search: немецкий, Deutsch, de…")) },
                 leadingIcon = { Icon(Icons.Rounded.Search, null) },
                 singleLine = true
             )
@@ -318,7 +318,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         val slot = target
         if (uri != null && slot != null) scope.launch {
             val ok = withContext(Dispatchers.IO) { IconStore.setImage(context, slot.id, uri) }
-            if (!ok) Toast.makeText(context, tr("Не удалось открыть картинку"), Toast.LENGTH_LONG).show()
+            if (!ok) Toast.makeText(context, tr("Could not open image"), Toast.LENGTH_LONG).show()
         }
         target = null
     }
@@ -342,7 +342,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
         GroupItem { EmojiStylePicker(settings) { emojiFontLauncher.launch("*/*") } }
         if (settings.emojiFontVersion != 0L) {
             ActionItem(
-                Icons.Rounded.DeleteOutline, "Удалить свой шрифт эмодзи", null,
+                Icons.Rounded.DeleteOutline, "Delete свой шрифт эмодзи", null,
                 onClick = { KeyboardPrefs.resetEmojiFont(context) }
             )
         }
@@ -350,7 +350,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
     InfoCard(
         Icons.Rounded.Brush,
         "Нажмите на иконку, чтобы заменить её своей картинкой (PNG с прозрачностью смотрится лучше всего) " +
-            "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Плагины тоже могут менять иконки."
+            "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Plugins тоже могут менять иконки."
     )
     IconStore.slots.groupBy { it.group }.forEach { (group, slots) ->
         SettingsSection(group) {
@@ -400,7 +400,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
                         Icon(Icons.Rounded.Image, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Картинка из галереи"))
                     }
                     FilledTonalButton(onClick = { textFor = slot; menuFor = null }, modifier = Modifier.fillMaxWidth()) {
-                        Icon(Icons.Rounded.EmojiEmotions, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Эмодзи или текст"))
+                        Icon(Icons.Rounded.EmojiEmotions, null, modifier = Modifier.size(18.dp)); Spacer(Modifier.width(8.dp)); Text(tr("Emoji или текст"))
                     }
                     if (custom is CustomIcon.Picture) {
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -415,11 +415,11 @@ internal fun IconsPage(settings: KeyboardSettings) {
                     }
                 }
             },
-            confirmButton = { TextButton(onClick = { menuFor = null }) { Text(tr("Готово")) } }
+            confirmButton = { TextButton(onClick = { menuFor = null }) { Text(tr("Done")) } }
         )
     }
     textFor?.let { slot ->
-        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), "Эмодзи или до 6 символов", onDismiss = { textFor = null }) { v ->
+        TextInputDialog(slot.title, (IconStore.userIcon(slot.id) as? CustomIcon.Label)?.text.orEmpty(), "Emoji или до 6 символов", onDismiss = { textFor = null }) { v ->
             if (v.isNotBlank()) IconStore.setText(context, slot.id, v.trim()) else IconStore.reset(context, slot.id)
             textFor = null
         }
@@ -430,7 +430,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
             title = { Text(tr("Вернуть все иконки?")) },
             text = { Text(tr("Свои картинки и тексты будут удалены.")) },
             confirmButton = { Button(onClick = { IconStore.resetAll(context); confirmReset = false }) { Text(tr("Вернуть")) } },
-            dismissButton = { TextButton(onClick = { confirmReset = false }) { Text(tr("Отмена")) } }
+            dismissButton = { TextButton(onClick = { confirmReset = false }) { Text(tr("Cancel")) } }
         )
     }
 }
@@ -502,7 +502,7 @@ internal fun EmojiStylePicker(settings: KeyboardSettings, onCustom: () -> Unit) 
     val context = LocalContext.current
     val cs = MaterialTheme.colorScheme
     val font = remember(settings.emojiFontVersion) { FontRepository.emoji(context, settings.emojiFontVersion) }
-    val options = listOf(EmojiStyles.SYSTEM to tr("Как в системе")) + EmojiStyles.builtIn.map { it.first to it.second } +
+    val options = listOf(EmojiStyles.SYSTEM to tr("System default")) + EmojiStyles.builtIn.map { it.first to it.second } +
         (EmojiStyles.CUSTOM to tr("Свой шрифт…"))
     Row(
         Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(12.dp),
