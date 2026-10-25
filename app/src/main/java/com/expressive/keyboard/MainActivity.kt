@@ -1377,7 +1377,7 @@ internal fun BackupPage() {
         ActionItem(Icons.Rounded.Download, "Импорт настроек", "Восстановить из файла", onClick = {
             importLauncher.launch(arrayOf("application/json", "text/plain", "*/*"))
         })
-        ActionItem(Icons.Rounded.RestartAlt, "Reset настройки", "Словарь, плагины и недавние эмодзи сохранятся", onClick = { confirm = "settings" })
+        ActionItem(Icons.Rounded.RestartAlt, "Reset settings", "Dictionaries, plugins, and recent emoji will be kept", onClick = { confirm = "settings" })
     }
     SettingsSection("Данные") {
         ActionItem(Icons.Rounded.AutoFixHigh, "Clear learned words", "Suggestions will forget your learned words and word pairs", onClick = { confirm = "dict" })
