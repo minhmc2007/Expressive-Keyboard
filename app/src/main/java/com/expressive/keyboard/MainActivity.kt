@@ -344,7 +344,7 @@ internal fun HomePage(settings: KeyboardSettings, onNavigate: (SettingsPage) -> 
     SettingsSection(null) {
         ChoiceItem(
             Icons.Rounded.Translate, "Язык приложения", null,
-            listOf("SYSTEM" to "Как в системе", "ru" to "Русский", "en" to "English"), settings.appLanguage
+            listOf("SYSTEM" to "Как в системе", "ru" to tr("Russian"), "en" to "English"), settings.appLanguage
         ) { v -> KeyboardPrefs.edit(context) { putString("app_language", v) } }
     }
     SettingsSection("Дизайн") {
@@ -826,9 +826,7 @@ internal fun TypingPage(settings: KeyboardSettings, part: SettingsPage) {
     if (part == SettingsPage.TYPING) SettingsSection("Исправление текста ИИ") {
         InfoCard(
             Icons.Rounded.AutoFixHigh,
-            "Кнопка ✨ на панели инструментов исправляет выделенный текст, а если ничего не выделено — весь текст в поле. " +
-                "«Авто»: сначала на телефоне (Gemini Nano), если он умеет; иначе сервис, для которого задан ключ; иначе бесплатная проверка LanguageTool. " +
-                "Облачные сервисы получают исправляемый текст."
+            tr("AI text correction explanation")
         )
         val providers = AiProvider.entries.map { it.id to it.title }
         val nanoText = when (nanoStatus) {
