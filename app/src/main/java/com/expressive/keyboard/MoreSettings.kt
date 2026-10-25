@@ -344,8 +344,7 @@ internal fun IconsPage(settings: KeyboardSettings) {
     }
     InfoCard(
         Icons.Rounded.Brush,
-        "Нажмите на иконку, чтобы заменить её своей картинкой (PNG с прозрачностью смотрится лучше всего) " +
-            "или эмодзи/текстом. Картинку можно перекрашивать в цвет темы. Плагины тоже могут менять иконки."
+        tr("Custom icon help")
     )
     IconStore.slots.groupBy { it.group }.forEach { (group, slots) ->
         SettingsSection(group) {
@@ -446,8 +445,7 @@ internal fun ToolbarPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.DragIndicator,
-        "Порядок кнопок на панели инструментов (кнопка с сеткой слева вверху). На самой клавиатуре порядок тоже " +
-            "меняется: удерживайте кнопку и перетащите её влево или вправо."
+        tr("Toolbar order help")
     )
     SettingsSection("Кнопки") {
         order.forEachIndexed { i, id ->
