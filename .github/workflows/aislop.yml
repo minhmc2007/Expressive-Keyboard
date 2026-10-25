@@ -1,0 +1,47 @@
+name: AI slop scan
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Scan supported source files
+        id: scan
+        shell: bash
+        run: |
+          set +e
+          npx --yes aislop@latest scan --json > aislop-report.json
+          scan_status=$?
+          set -e
+
+          cat aislop-report.json
+
+          if [ "$scan_status" -ne 0 ]; then
+            if node -e 'JSON.parse(require("fs").readFileSync("aislop-report.json", "utf8"))' >/dev/null 2>&1; then
+              echo "aislop reported findings; keeping this workflow report-only."
+            else
+              echo "aislop failed before producing valid JSON."
+              exit "$scan_status"
+            fi
+          fi
+
+      - name: Upload scan report
+        if: always() && hashFiles('aislop-report.json') != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: aislop-report
+          path: aislop-report.json
+          if-no-files-found: ignore
