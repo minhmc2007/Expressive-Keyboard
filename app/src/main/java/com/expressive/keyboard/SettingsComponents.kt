@@ -192,7 +192,7 @@ internal fun HeroCard(
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 StepRow(1, "Enable in system", imeEnabled, "Enable", onEnable)
-                StepRow(2, "Set as default", imeSelected, "Выбрать", onSelect)
+                StepRow(2, "Set as default", imeSelected, "Choose", onSelect)
                 StepRow(3, "Microphone for voice input", micGranted, "Allow", onMic)
             }
         }
