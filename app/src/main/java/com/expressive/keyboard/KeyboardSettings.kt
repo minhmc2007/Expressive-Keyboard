@@ -303,6 +303,7 @@ object KeyboardPrefs {
         context.applicationContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun ensureInit(context: Context) {
+        I18n.initialize(context)
         if (listener != null) return
         val sp = prefs(context)
         state.value = read(sp)
