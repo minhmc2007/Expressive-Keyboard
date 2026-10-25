@@ -163,12 +163,7 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
 
     InfoCard(
         Icons.Rounded.Language,
-        tr(
-            "Язык меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
-                "Подсказки работают по частотному словарю: русский, английский и китайский встроены, остальные скачиваются " +
-                "(~0,3–0,8 МБ). Китайский набирается пиньинем (nihao → 你好), японский — ромадзи (konnichiha → こんにちは), " +
-                "корейский собирает слоги сам, вьетнамский — по Telex.", Languages.all.size
-        )
+        tr("Language settings explanation", Languages.all.size)
     )
     SettingsSection("Включённые языки") {
         enabled.forEachIndexed { i, lang ->
