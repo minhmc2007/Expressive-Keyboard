@@ -716,14 +716,14 @@ internal fun KeysPage(settings: KeyboardSettings) {
                 globeActions, settings.globeLongPress
             ) { v -> KeyboardPrefs.edit(context) { putString("globe_long_press", v) } }
         }
-        ToggleItem(Icons.Rounded.MoreHoriz, "Comma and period on the ?123 page", "По бокам пробела. Удержание — другие знаки: ; : ' \" ? ! …", settings.punctuationKeys) {
+        ToggleItem(Icons.Rounded.MoreHoriz, "Comma and period on the ?123 page", "On either side of the spacebar. Long-press for more symbols: ; : ' \" ? ! …", settings.punctuationKeys) {
             KeyboardPrefs.edit(context) { putBoolean("punctuation_keys", it) }
         }
         ToggleItem(Icons.Rounded.EmojiEmotions, "Emoji key", null, settings.showEmojiKey) {
             KeyboardPrefs.edit(context) { putBoolean("show_emoji_key", it) }
         }
         ToggleItem(
-            Icons.Rounded.MoreHoriz, "Comma on the main keyboard", "Left от пробела. Удержание — ; : ' \" и другие знаки",
+            Icons.Rounded.MoreHoriz, "Comma on the main keyboard", "Left of the spacebar. Long-press for ; : ' \" и другие знаки",
             settings.spaceLeftKey == ","
         ) { on -> KeyboardPrefs.edit(context) { putString("space_left_key", if (on) "," else "") } }
         ToggleItem(
@@ -1390,7 +1390,7 @@ internal fun BackupPage() {
         AlertDialog(
             onDismissRequest = { confirm = null },
             icon = { Icon(Icons.Rounded.RestartAlt, null) },
-            title = { Text(tr(if (what == "dict") "Clear learned words?" else "Reset настройки?")) },
+            title = { Text(tr(if (what == "dict") "Clear learned words?" else "Reset settings?")) },
             text = {
                 Text(
                     tr(if (what == "dict") "Все выученные слова будут удалены."
