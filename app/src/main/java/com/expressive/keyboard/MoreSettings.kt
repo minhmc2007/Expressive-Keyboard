@@ -164,11 +164,13 @@ internal fun LanguagesPage(settings: KeyboardSettings) {
     InfoCard(
         Icons.Rounded.Language,
         if (I18n.isEnglish) {
-            "Switch languages with the 🌐 key (long-press for the language list) or swipe the space bar. " +
-                "There are {0} languages. Suggestions use frequency dictionaries: English and Chinese are built in; " +
-                "others are downloaded (~0.3–0.8 MB). Chinese uses pinyin (nihao → 你好), Japanese uses romaji " +
-                "(konnichiha → こんにちは), Korean composes syllables automatically, and Vietnamese uses Telex."
-                    .let { tr(it, Languages.all.size) }
+            tr(
+                "Switch languages with the 🌐 key (long-press for the language list) or swipe the space bar. " +
+                    "There are {0} languages. Suggestions use frequency dictionaries: English and Chinese are built in; " +
+                    "others are downloaded (~0.3–0.8 MB). Chinese uses pinyin (nihao → 你好), Japanese uses romaji " +
+                    "(konnichiha → こんにちは), Korean composes syllables automatically, and Vietnamese uses Telex.",
+                Languages.all.size
+            )
         } else {
             tr(
                 "Язык меняется кнопкой 🌐 (удержание — список языков) или свайпом по пробелу. Всего языков: {0}. " +
