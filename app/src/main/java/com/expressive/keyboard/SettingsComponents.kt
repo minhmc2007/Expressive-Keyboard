@@ -173,13 +173,13 @@ internal fun HeroCard(
             }
             Column(Modifier.weight(1f)) {
                 Text(
-                    tr(if (ready) "Всё готово" else "Почти готово"),
+                    tr(if (ready) "All set" else "Almost there"),
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.ExtraBold,
                     color = if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer
                 )
                 Text(
-                    tr(if (ready) "Клавиатура включена и выбрана" else "Включите клавиатуру и выберите её по умолчанию"),
+                    tr(if (ready) "Keyboard enabled and selected" else "Enable the keyboard and set it as default"),
                     style = MaterialTheme.typography.bodyMedium,
                     color = (if (ready) cs.onPrimaryContainer else cs.onTertiaryContainer).copy(alpha = 0.8f)
                 )
@@ -191,9 +191,9 @@ internal fun HeroCard(
             exit = shrinkVertically(spring(dampingRatio = 0.9f, stiffness = 400f)) + fadeOut()
         ) {
             Column(Modifier.clip(RoundedCornerShape(24.dp)), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                StepRow(1, "Включить в системе", imeEnabled, "Включить", onEnable)
-                StepRow(2, "Выбрать по умолчанию", imeSelected, "Выбрать", onSelect)
-                StepRow(3, "Микрофон для голосового ввода", micGranted, "Разрешить", onMic)
+                StepRow(1, "Enable in system", imeEnabled, "Enable", onEnable)
+                StepRow(2, "Set as default", imeSelected, "Choose", onSelect)
+                StepRow(3, "Microphone for voice input", micGranted, "Allow", onMic)
             }
         }
     }
@@ -480,7 +480,7 @@ internal fun StylePreview(settings: KeyboardSettings, spec: WavySpec) {
                     GlyphIcon(Glyph.GRID, palette.onAccent, 18.dp)
                 }
                 if (settings.showSuggestions) {
-                    listOf("как", "привет", "дела").forEachIndexed { i, w ->
+                    listOf("how", "hello", "today").forEachIndexed { i, w ->
                         Box(
                             Modifier.weight(1f).height(34.dp).clip(CircleShape).background(if (i == 1) palette.accentSoft else palette.func),
                             contentAlignment = Alignment.Center
@@ -535,7 +535,7 @@ internal fun StylePreview(settings: KeyboardSettings, spec: WavySpec) {
                     }
                 }
                 Box(Modifier.weight(3f).fillMaxHeight().clip(CircleShape).background(palette.func), contentAlignment = Alignment.Center) {
-                    Text(if (I18n.isEnglish) "English" else "Русский", color = palette.onFunc.copy(alpha = 0.72f), fontFamily = font, fontWeight = weight, fontSize = 13.sp)
+                    Text(if (I18n.isEnglish) "English" else "Russian", color = palette.onFunc.copy(alpha = 0.72f), fontFamily = font, fontWeight = weight, fontSize = 13.sp)
                 }
                 Box(Modifier.weight(1.3f).fillMaxHeight().clip(CircleShape).background(palette.func), contentAlignment = Alignment.Center) {
                     GlyphIcon(Glyph.BACKSPACE, palette.onFunc, 20.dp)
@@ -673,7 +673,7 @@ internal fun ColorPickerDialog(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     val spec = remember { WavySpec(ShapeProfile.SINE, 12, 0.06f) }
                     Box(Modifier.size(72.dp).wavyBackground(spec, color), contentAlignment = Alignment.Center) {
-                        Text(tr("Аа"), color = contentColorFor(color), fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
+                        Text(tr("Aa"), color = contentColorFor(color), fontWeight = FontWeight.ExtraBold, fontSize = 22.sp)
                     }
                     OutlinedTextField(
                         value = hex,
@@ -694,17 +694,17 @@ internal fun ColorPickerDialog(
                         modifier = Modifier.weight(1f)
                     )
                 }
-                Text(tr("Оттенок"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Hue"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(h / 360f, remember { Brush.horizontalGradient((0..6).map { hsvColor(it * 60f, 1f, 1f) }) }, hsvColor(h, 1f, 1f)) {
                     h = it * 360f
                     syncHex()
                 }
-                Text(tr("Насыщенность"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Saturation"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(s, Brush.horizontalGradient(listOf(hsvColor(h, 0f, v), hsvColor(h, 1f, v))), color) {
                     s = it
                     syncHex()
                 }
-                Text(tr("Яркость"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
+                Text(tr("Brightness"), style = MaterialTheme.typography.labelLarge, color = cs.onSurfaceVariant)
                 GradientBar(v, Brush.horizontalGradient(listOf(Color.Black, hsvColor(h, s, 1f))), color) {
                     v = it
                     syncHex()
@@ -718,11 +718,11 @@ internal fun ColorPickerDialog(
                 }
             }
         },
-        confirmButton = { Button(onClick = { onPick(color.toArgb()) }) { Text(tr("Готово")) } },
+        confirmButton = { Button(onClick = { onPick(color.toArgb()) }) { Text(tr("Done")) } },
         dismissButton = {
             Row {
-                if (allowAuto) TextButton(onClick = { onPick(0) }) { Text(tr("Авто")) }
-                TextButton(onClick = onDismiss) { Text(tr("Отмена")) }
+                if (allowAuto) TextButton(onClick = { onPick(0) }) { Text(tr("Auto")) }
+                TextButton(onClick = onDismiss) { Text(tr("Cancel")) }
             }
         }
     )
@@ -746,7 +746,7 @@ internal fun ColorRow(title: String, value: Int, auto: Color, onClick: () -> Uni
             Column(Modifier.weight(1f)) {
                 Text(tr(title), style = MaterialTheme.typography.titleMedium, color = cs.onSurface)
                 Text(
-                    if (value == 0) tr("Авто (из темы)") else "#" + String.format("%06X", value and 0xFFFFFF),
+                    if (value == 0) tr("Auto (from theme)") else "#" + String.format("%06X", value and 0xFFFFFF),
                     style = MaterialTheme.typography.bodyMedium, color = cs.onSurfaceVariant
                 )
             }
@@ -767,8 +767,8 @@ internal fun TextInputDialog(title: String, initial: String, hint: String, onDis
                 placeholder = { Text(tr(hint)) }, shape = RoundedCornerShape(16.dp), modifier = Modifier.fillMaxWidth()
             )
         },
-        confirmButton = { Button(onClick = { onDone(text.trim()) }) { Text(tr("Сохранить")) } },
-        dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Отмена")) } }
+        confirmButton = { Button(onClick = { onDone(text.trim()) }) { Text(tr("Save")) } },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(tr("Cancel")) } }
     )
 }
 

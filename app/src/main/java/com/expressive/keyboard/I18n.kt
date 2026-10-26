@@ -578,7 +578,11 @@ object I18n {
         "Распознавание не сработало. Попробуйте голосовой ввод другой клавиатуры" to R.string.i18n_recognition_failed_try_another_keyboard_s_voice_input,
         "На устройстве нет службы распознавания речи. Нажмите «Другой голосовой ввод»" to R.string.i18n_this_device_has_no_speech_recognition_service_tap_othe,
         "Установите «Распознавание и синтез речи Google»" to R.string.i18n_install_speech_recognition_synthesis_from_google,
-        "Не удалось перевести — проверьте интернет" to R.string.i18n_couldn_t_translate_check_your_connection
+        "Не удалось перевести — проверьте интернет" to R.string.i18n_couldn_t_translate_check_your_connection,
+        "Клик" to R.string.i18n_feedback_click,
+        "Тик" to R.string.i18n_feedback_tick,
+        "Сильный" to R.string.i18n_feedback_heavy,
+        "Свой" to R.string.i18n_feedback_custom
     )
 
     private fun systemLang(): String =

@@ -242,17 +242,17 @@ internal fun TranslatorBar(state: KeyboardState, actions: KeyboardActions, setti
                 }
                 .padding(horizontal = 12.dp, vertical = 10.dp)
         ) {
-            Text(tr("Авто") + " → ${target.uppercase()}", color = palette.onFunc, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 12.sp)
+            Text(tr("Auto") + " → ${target.uppercase()}", color = palette.onFunc, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 12.sp)
         }
         Column(Modifier.weight(1f)) {
             Text(
-                if (input.isEmpty()) tr("Печатайте — переведу") else input,
+                if (input.isEmpty()) tr("Type to translate") else input,
                 color = if (input.isEmpty()) palette.muted else palette.onLetter,
                 fontFamily = font, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
             val result = when {
-                state.translatorLoading -> tr("Перевожу…")
-                failed -> tr("Не удалось перевести — проверьте интернет")
+                state.translatorLoading -> tr("Translating…")
+                failed -> tr("Translation failed — check your connection")
                 else -> state.translatorResult
             }
             if (result.isNotEmpty()) {
@@ -309,7 +309,7 @@ internal fun EmojiPanel(actions: KeyboardActions, settings: KeyboardSettings, pa
                     ) { EmojiGlyph(e, 32.dp, style, emojiFont) }
                 }
                 Box(Modifier.size(40.dp).clip(CircleShape).clickable { variantsOf = null }, contentAlignment = Alignment.Center) {
-                    Icon(Icons.Rounded.Close, tr("Закрыть"), tint = palette.onAccentSoft, modifier = Modifier.size(20.dp))
+                    Icon(Icons.Rounded.Close, tr("Close"), tint = palette.onAccentSoft, modifier = Modifier.size(20.dp))
                 }
             }
         }
@@ -317,7 +317,7 @@ internal fun EmojiPanel(actions: KeyboardActions, settings: KeyboardSettings, pa
             if (list.isEmpty()) {
                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     if (cats.isEmpty()) CircularProgressIndicator(Modifier.size(28.dp), strokeWidth = 3.dp)
-                    else Text(tr("Пока пусто"), color = palette.muted, fontFamily = font)
+                    else Text(tr("Nothing here yet"), color = palette.muted, fontFamily = font)
                 }
             } else {
                 LazyVerticalGrid(
@@ -362,7 +362,7 @@ internal fun EmojiPanel(actions: KeyboardActions, settings: KeyboardSettings, pa
                         Modifier.size(width = 40.dp, height = 36.dp).clip(RoundedCornerShape(12.dp))
                             .clickable { actions.togglePanel(ActivePanel.EMOJI_SEARCH) },
                         contentAlignment = Alignment.Center
-                    ) { Icon(Icons.Rounded.Search, tr("Поиск эмодзи"), tint = palette.onLetter, modifier = Modifier.size(22.dp)) }
+                    ) { Icon(Icons.Rounded.Search, tr("Search emoji"), tint = palette.onLetter, modifier = Modifier.size(22.dp)) }
                 }
                 item { EmojiTab(tab == 0, palette, "emoji_recent", "🕒", style, emojiFont) { tab = 0; variantsOf = null } }
                 itemsIndexed(cats) { i, c ->
@@ -403,19 +403,19 @@ internal fun EmojiSearchBar(state: KeyboardState, actions: KeyboardActions, sett
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Icon(Icons.Rounded.Search, null, tint = palette.muted, modifier = Modifier.padding(start = 6.dp).size(20.dp))
             Text(
-                query.ifEmpty { tr("Найти эмодзи: кот, сердце, smile…") }, Modifier.weight(1f),
+                query.ifEmpty { tr("Search emoji: cat, heart, smile…") }, Modifier.weight(1f),
                 color = if (query.isEmpty()) palette.muted else palette.onLetter, fontFamily = font, fontSize = 15.sp,
                 maxLines = 1, overflow = TextOverflow.Ellipsis
             )
             Box(
                 Modifier.size(36.dp).clip(CircleShape).clickable { actions.togglePanel(ActivePanel.EMOJI) },
                 contentAlignment = Alignment.Center
-            ) { Icon(Icons.Rounded.Close, tr("Закрыть"), tint = palette.muted, modifier = Modifier.size(20.dp)) }
+            ) { Icon(Icons.Rounded.Close, tr("Close"), tint = palette.muted, modifier = Modifier.size(20.dp)) }
         }
         LazyRow(Modifier.fillMaxWidth().height(46.dp), horizontalArrangement = Arrangement.spacedBy(2.dp)) {
             if (results.isEmpty()) item {
                 Box(Modifier.height(46.dp).padding(horizontal = 12.dp), contentAlignment = Alignment.CenterStart) {
-                    Text(tr("Ничего не найдено"), color = palette.muted, fontFamily = font, fontSize = 14.sp)
+                    Text(tr("Nothing found"), color = palette.muted, fontFamily = font, fontSize = 14.sp)
                 }
             }
             items(results.size) { i ->
@@ -440,7 +440,7 @@ internal fun GifSearchBar(state: KeyboardState, actions: KeyboardActions, palett
     ) {
         Icon(Icons.Rounded.Search, null, tint = palette.muted, modifier = Modifier.padding(start = 6.dp).size(20.dp))
         Text(
-            query.ifEmpty { tr("Найти GIF: привет, котик, ура…") }, Modifier.weight(1f),
+            query.ifEmpty { tr("Search GIFs: hello, cat, yay…") }, Modifier.weight(1f),
             color = if (query.isEmpty()) palette.muted else palette.onLetter, fontFamily = font, fontSize = 15.sp,
             maxLines = 1, overflow = TextOverflow.Ellipsis
         )
@@ -448,7 +448,7 @@ internal fun GifSearchBar(state: KeyboardState, actions: KeyboardActions, palett
             Modifier.height(36.dp).clip(CircleShape).background(palette.accent)
                 .clickable { actions.togglePanel(ActivePanel.GIF) }.padding(horizontal = 14.dp),
             contentAlignment = Alignment.Center
-        ) { Text(tr("Найти"), color = palette.onAccent, fontFamily = font, fontWeight = FontWeight.Bold, fontSize = 14.sp) }
+        ) { Text(tr("Search"), color = palette.onAccent, fontFamily = font, fontWeight = FontWeight.Bold, fontSize = 14.sp) }
     }
 }
 
@@ -508,7 +508,7 @@ internal fun GifPanel(state: KeyboardState, actions: KeyboardActions, settings: 
                 contentAlignment = Alignment.Center
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                    Icon(Icons.Rounded.Search, tr("Поиск"), tint = if (search.isNotEmpty()) palette.onAccent else palette.onFunc, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Rounded.Search, tr("Search"), tint = if (search.isNotEmpty()) palette.onAccent else palette.onFunc, modifier = Modifier.size(16.dp))
                     if (search.isNotEmpty()) {
                         Text(search.take(18), color = palette.onAccent, fontFamily = font, fontWeight = FontWeight.Bold, fontSize = 13.sp, maxLines = 1)
                     }
@@ -531,7 +531,7 @@ internal fun GifPanel(state: KeyboardState, actions: KeyboardActions, settings: 
         }
         if (!online) {
             Text(
-                tr("Сейчас — встроенная подборка. Чтобы искать любые GIF, добавьте бесплатный ключ KLIPY в настройках → «Буфер обмена и GIF»."),
+                tr("This is the built-in collection. To search all GIFs, add a free KLIPY key in Settings → “Clipboard & GIF”."),
                 color = palette.muted, fontFamily = font, fontSize = 12.sp, lineHeight = 15.sp,
                 modifier = Modifier.padding(horizontal = 4.dp)
             )
@@ -567,12 +567,12 @@ internal fun GifPanel(state: KeyboardState, actions: KeyboardActions, settings: 
             if (!loading && gifs.isEmpty()) {
                 Column(Modifier.align(Alignment.Center).padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        if (error != null) tr("Не удалось загрузить GIF: {0}", error.orEmpty()) else tr("Ничего не найдено"),
+                        if (error != null) tr("Could not load GIF: {0}", error.orEmpty()) else tr("Nothing found"),
                         color = palette.muted, fontFamily = font, fontSize = 14.sp, textAlign = TextAlign.Center
                     )
                     if (error != null) {
                         Spacer(Modifier.height(8.dp))
-                        PillButton(tr("Повторить"), palette.func, palette.onFunc, font) { scope.launch { load(true) } }
+                        PillButton(tr("Retry"), palette.func, palette.onFunc, font) { scope.launch { load(true) } }
                     }
                 }
             }
@@ -591,12 +591,12 @@ internal fun ClipboardPanel(state: KeyboardState, actions: KeyboardActions, pale
     ) {
         // высота шапки постоянная — записи не прыгают, когда «Очистить» пропадает
         Row(Modifier.fillMaxWidth().height(44.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(tr("Буфер обмена"), Modifier.weight(1f), color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
-            if (items.size > pinned.size) PillButton(tr("Очистить"), palette.func, palette.onFunc, font) { actions.clearClipboard() }
+            Text(tr("Clipboard"), Modifier.weight(1f), color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 17.sp)
+            if (items.size > pinned.size) PillButton(tr("Clear"), palette.func, palette.onFunc, font) { actions.clearClipboard() }
         }
         if (items.isEmpty()) {
             Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                Text(tr("Скопируйте текст или картинку — они появятся здесь"), color = palette.muted, fontFamily = font)
+                Text(tr("Copy text or an image and it will appear here"), color = palette.muted, fontFamily = font)
             }
         } else {
             LazyVerticalGrid(
@@ -631,13 +631,13 @@ internal fun ClipboardPanel(state: KeyboardState, actions: KeyboardActions, pale
                             Box(
                                 Modifier.size(28.dp).clip(CircleShape).background(badgeBg).clickable { actions.removeClip(t) },
                                 contentAlignment = Alignment.Center
-                            ) { Icon(Icons.Rounded.Close, tr("Удалить"), tint = badgeFg, modifier = Modifier.size(16.dp)) }
+                            ) { Icon(Icons.Rounded.Close, tr("Delete"), tint = badgeFg, modifier = Modifier.size(16.dp)) }
                             Box(
                                 Modifier.size(28.dp).clip(CircleShape).background(badgeBg).clickable { actions.togglePinClip(t) },
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
-                                    if (isPinned) Icons.Rounded.PushPin else Icons.Outlined.PushPin, tr("Закрепить"),
+                                    if (isPinned) Icons.Rounded.PushPin else Icons.Outlined.PushPin, tr("Pin"),
                                     tint = if (isPinned) palette.accent else badgeFg, modifier = Modifier.size(16.dp)
                                 )
                             }
@@ -676,7 +676,7 @@ internal fun VoicePanel(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        Text(tr("Голосовой ввод") + " · ${state.language.label}", color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+        Text(tr("Voice input") + " · ${state.language.label}", color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
         Box(
             modifier = Modifier
                 .size(112.dp)
@@ -703,11 +703,11 @@ internal fun VoicePanel(
         )
         if (!voice.hasPermission()) {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                PillButton(tr("Разрешить микрофон"), palette.accent, palette.onAccent, font) { actions.openSettings() }
-                PillButton(tr("Другой голосовой ввод"), palette.func, palette.onFunc, font) { actions.openVoiceFallback() }
+                PillButton(tr("Allow microphone"), palette.accent, palette.onAccent, font) { actions.openSettings() }
+                PillButton(tr("Other voice input"), palette.func, palette.onFunc, font) { actions.openVoiceFallback() }
             }
         } else if (voice.needsFallback) {
-            PillButton(tr("Другой голосовой ввод"), palette.accent, palette.onAccent, font) { actions.openVoiceFallback() }
+            PillButton(tr("Other voice input"), palette.accent, palette.onAccent, font) { actions.openVoiceFallback() }
         }
     }
 }
@@ -751,10 +751,10 @@ internal fun PluginsPanel(state: KeyboardState, actions: KeyboardActions, palett
             ) {
                 Icon(Icons.Rounded.Extension, null, tint = palette.muted, modifier = Modifier.size(36.dp))
                 Text(
-                    "Нет плагинов с действиями или символами",
+                    "No plugins with actions or symbols",
                     color = palette.onLetter, fontFamily = font, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center
                 )
-                PillButton(tr("Открыть плагины"), palette.accent, palette.onAccent, font) { actions.openSettings() }
+                PillButton(tr("Open plugins"), palette.accent, palette.onAccent, font) { actions.openSettings() }
             }
         } else {
             LazyRow(
